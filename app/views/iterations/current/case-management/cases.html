@@ -1,0 +1,46 @@
+{% extends 'layout.html' %} {% block pageTitle %} Total number of attendance
+management cases {% endblock %} {% block beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form action="prosecuted.html">
+			<h1 class="govuk-heading-xl">
+				Total number of attendance management cases
+			</h1>
+
+			{{
+				govukInsetText({
+					text: 'Include cases entering the fast-track case management system.'
+				})
+			}}
+
+			{{ govukInput ({
+                id: 'att-cases',
+                name: 'att-cases',
+                value: data['att-cases'] if data['att-cases'] else '',
+                classes: 'govuk-input--width-5',
+                label: {
+                    text: 'Total number of attendance management cases',
+                    classes: 'govuk-visually-hidden' 
+                }
+            }) }}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

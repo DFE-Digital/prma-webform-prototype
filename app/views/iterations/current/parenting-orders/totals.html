@@ -1,0 +1,66 @@
+{% extends 'layout.html' %} {% block pageTitle %} Total number of granted
+parenting orders {% endblock %} {% block beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form action="../parenting-contracts/totals.html">
+			<h1 class="govuk-heading-xl">
+				Total number of granted parenting orders that;
+			</h1>
+
+			{{
+				govukInsetText({
+					text:
+						'Tell us about parenting orders granted following unauthorised absences only.'
+				})
+			}}
+
+			{{ govukInput ({
+                id: 'po-implemented',
+                name: 'po-implemented',
+                value: data['po-implemented'] if data['po-implemented'] else '',
+                classes: 'govuk-input--width-5',
+                label: {
+                    text: 'Have been implemented'
+                }
+            }) }}
+
+			{{ govukInput ({
+                id: 'po-ni-provision',
+                name: 'po-ni-provision',
+                value: data['po-ni-provision'] if data['po-ni-provision'] else '',
+                classes: 'govuk-input--width-5',
+                label: {
+                    text: 'Have not been implemented because of lack of provision'
+                }
+            }) }}
+
+			{{ govukInput ({
+                id: 'po-ni-parent',
+                name: 'po-ni-parent',
+                value: data['po-ni-parent'] if data['po-ni-parent'] else '',
+                classes: 'govuk-input--width-5',
+                label: {
+                    text: 'Have not been implemented because of a breach by a parent'
+                }
+            }) }}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

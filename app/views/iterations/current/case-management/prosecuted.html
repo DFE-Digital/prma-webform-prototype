@@ -1,0 +1,52 @@
+{% extends 'layout.html' %} {% block pageTitle %} Total number of attendance
+management cases {% endblock %} {% block beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form action="withdrawn.html">
+			<h1 class="govuk-heading-xl">
+				How many prosecutions resulted from attendance management cases?
+			</h1>
+
+			{{
+				govukInsetText({
+					text: 'Include cases within the fast-track case management system.'
+				})
+			}}
+
+			<p>
+				Tell us the number of prosecutions, not cases. For example, if both
+				parents were prosecuted as a result of a case this would be recorded as
+				2.
+			</p>
+
+			{{ govukInput ({
+                id: 'att-prosecuted',
+                name: 'att-prosecuted',
+                value: data['att-prosecuted'] if data['att-prosecuted'] else '',
+                classes: 'govuk-input--width-5',
+                label: {
+                    text: 'How many attendance management cases that led to prosecution?',
+                    classes: 'govuk-visually-hidden' 
+                }
+            }) }}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

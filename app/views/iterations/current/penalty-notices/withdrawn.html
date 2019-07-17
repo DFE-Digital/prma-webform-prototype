@@ -1,0 +1,81 @@
+{% extends 'layout.html' %} {% block pageTitle %} Penalty notices issued {%
+endblock %} {% block beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form action="totals.html">
+			<h1 class="govuk-heading-xl">
+				Total number of withdrawn penalty notices (PNs) where the reason was;
+			</h1>
+
+			{{ govukInput ({
+                id: 'pns-withdrawn-terms',
+                name: 'pns-withdrawn-terms',
+                value: data['pns-withdrawn-terms'] if data['pns-withdrawn-terms'] else '',
+                classes: 'govuk-input--width-5',
+                type: 'number',
+                label: {
+                    text: 'It was issued outside terms of local code of conduct'
+                }
+            }) }}
+
+			{{ govukInput ({
+                id: 'pns-withdrawn-person',
+                name: 'pns-withdrawn-person',
+                value: data['pns-withdrawn-person'] if data['pns-withdrawn-person'] else '',
+                classes: 'govuk-input--width-5',
+                type: 'number',
+                label: {
+                    text: 'It should not have been issued or has been issued to the person named as the recipient'
+                }
+            }) }}
+
+			{{ govukInput ({
+                id: 'pns-withdrawn-errors',
+                name: 'pns-withdrawn-errors',
+                value: data['pns-withdrawn-errors'] if data['pns-withdrawn-errors'] else '',
+                classes: 'govuk-input--width-5',
+                type: 'number',
+                label: {
+                    text: 'It contains material errors'
+                }
+            }) }}
+
+			{{ govukInput ({
+                id: 'pns-withdrawn-s444',
+                name: 'pns-withdrawn-s444',
+                value: data['pns-withdrawn-s444'] if data['pns-withdrawn-s444'] else '',
+                classes: 'govuk-input--width-5',
+                type: 'number',
+                label: {
+                    text: 'It was not paid within 28 days and has not been prosecuted under s444'
+                }
+            }) }}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+
+			{{
+				govukDetails({
+					summaryText: 'What is s444?',
+					text:
+						's444 is the law that allows local authorities to send parents penalty notices for school non-attendance and begin court proceedings if the notice remains unpaid after 28 days.'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

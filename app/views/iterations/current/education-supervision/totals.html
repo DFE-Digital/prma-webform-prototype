@@ -1,0 +1,49 @@
+{% extends 'layout.html' %} {% block pageTitle %} Total number of parenting
+contracts offered {% endblock %} {% block beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form action="../check-your-answers.html">
+			<h1 class="govuk-heading-xl">
+				Total number of education supervision orders issued;
+			</h1>
+
+			{{ govukInput ({
+                    id: 'eso-in-place',
+                    name: 'eso-in-place',
+                    value: data['eso-in-place'] if data['eso-in-place'] else '',
+                    classes: 'govuk-input--width-5',
+                    label: {
+                        text: 'In place of prosecution'
+                    }
+                }) }}
+
+			{{ govukInput ({
+                    id: 'eso-as-well',
+                    name: 'eso-as-well',
+                    value: data['eso-as-well'] if data['eso-as-well'] else '',
+                    classes: 'govuk-input--width-5',
+                    label: {
+                        text: 'As well as prosecution'
+                    }
+                }) }}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

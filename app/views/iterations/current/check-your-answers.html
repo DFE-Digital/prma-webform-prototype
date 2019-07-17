@@ -1,0 +1,416 @@
+{% extends 'layout.html' %}
+
+{% set issuedTotal = [data['pns-holidays'], data['pns-late'], data['pns-other']] | stringSum %}
+{% set paidTotal = [data['pns-paid-21'], data['pns-paid-22-28']] | stringSum %}
+{% set withdrawnTotal = [data['pns-withdrawn-terms'], data['pns-withdrawn-person'], data['pns-withdrawn-errors'], data['pns-withdrawn-s444']] | stringSum %}
+{% set prosecutedTotal = [data['pns-prosecuted']] | stringSum %}
+{% set resolvedTotal = [paidTotal, withdrawnTotal, prosecutedTotal] | stringSum %}
+{% set unresolvedCount = [issuedTotal, '-'+resolvedTotal] | stringSum %}
+
+{% block pageTitle %}
+    Check your answers
+{% endblock %}
+
+{% block beforeContent %}
+
+    {{ govukBackLink ({
+        text: 'Back',
+        href: 'javascript:history.back()'
+    }) }}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds-from-desktop">
+
+        <h1 class="govuk-heading-xl">Check your answers before sending the census</h1>
+
+        <h2 class="govuk-heading-m">Contact details</h2>
+
+        
+        {{ govukSummaryList ({
+            rows: [
+                {
+                    key: {
+                        text: 'Name'
+                    },
+                    value: {
+                        text: data['first-name'] + ' ' + data['last-name']
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'contact-details/name.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'name'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Email address'
+                    },
+                    value: {
+                        text: data['email-address']
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'contact-details/email.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'email address'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Phone number'
+                    },
+                    value: {
+                        text: data['phone-number']
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'contact-details/phone.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'email address'
+                            }
+                        ]
+                    }
+                }
+            }
+        }) }}
+
+
+        <h2 class="govuk-heading-m">Penalty notices</h2>
+
+        
+        {{ govukSummaryList ({
+            rows: [
+                {
+                    key: {
+                        text: 'For family holidays'
+                    },
+                    value: {
+                        text: data['pns-holidays'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/notices-issued.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of PNs because of family holidays'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'For arriving late'
+                    },
+                    value: {
+                        text: data['pns-late'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/notices-issued.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of PNs for arriving late'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'For other reasons'
+                    },
+                    value: {
+                        text: data['pns-other'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/notices-issued.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of PNs for other reasons'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Total'
+                    },
+                    value: {
+                        text: issuedTotal | friendlyNumber + ' total penalty notices issued for unauthroised absenses'
+                    }
+                }
+            }
+        }) }}
+
+        {{ govukSummaryList ({
+            rows: [
+                {
+                    key: {
+                        text: 'Paid within 21 days'
+                    },
+                    value: {
+                        text: data['pns-paid-21'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/paid-notices.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of PNs paid within 21 days'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Paid between 22 and 28 days'
+                    },
+                    value: {
+                        text: data['pns-paid-22-28'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/paid-notices.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of PNs paid between 22 and 28 days'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Total'
+                    },
+                    value: {
+                        text: paidTotal | friendlyNumber + ' penalty notices were paid'
+                    }
+                }
+            }
+        }) }}
+
+        {{ govukSummaryList ({
+            rows: [
+                {
+                    key: {
+                        text: 'Prosecuted for non-payment'
+                    },
+                    value: {
+                        text: data['pns-prosecuted'] | friendlyNumber + ' penalty notices led to prosecution because they were not paid'
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/prosecuted.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of penalty notices prosecuted'
+                            }
+                        ]
+                    }
+                }
+            }
+        }) }}
+
+        {{ govukSummaryList ({
+            rows: [
+                {
+                    key: {
+                        text: 'Withdrawn because outside of local terms'
+                    },
+                    value: {
+                        text: data['pns-withdrawn-terms'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/withdrawn.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of withdrawn penalty notices because it was outside the local terms of conduct'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Withdrawn because it should not have been issued or issued to recipent'
+                    },
+                    value: {
+                        text: data['pns-withdrawn-person'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/withdrawn.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of withdrawn penalty notices because it should not have been issued or issued to recipent'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Withdrawn for any other reason'
+                    },
+                    value: {
+                        text: data['att-withdrawn-other'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/withdrawn.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of withdrawn for any other reason'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Total'
+                    },
+                    value: {
+                        text: withdrawnTotal | friendlyNumber + ' penalty notices were withdrawn'
+                    }
+                }
+            }
+        }) }}
+
+        {% if unresolvedCount != 0 %}
+
+            {{ govukSummaryList ({
+                rows: [
+                    {
+                        key: {
+                            text: 'Unresolved penalty notices'
+                        },
+                        value: {
+                            text: unresolvedCount | friendlyNumber + ' were neither paid, led to prosecution or were withdrawn'
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Review',
+                                    href: 'penalty-notices/totals.html?from-check=true&from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'number of penalty notices withdrawn'
+                                }
+                            ]
+                        }
+                    }
+                }
+            }) }}
+
+        {% endif %}
+
+        <h2 class="govuk-heading-m">Attendance management cases</h2>
+
+        
+        {{ govukSummaryList ({
+            rows: [
+                {
+                    key: {
+                        text: 'Total cases'
+                    },
+                    value: {
+                        text: data['att-cases'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'case-management/cases.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of attendance management cases'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Prosecutions resulting from cases'
+                    },
+                    value: {
+                        text: data['att-prosecuted'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'case-management/prosecuted.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of prosecutions resulting from attendance management cases'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Prosecutions resulting from cases'
+                    },
+                    value: {
+                        text: data['att-prosecuted'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'case-management/prosecuted.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of prosecutions resulting from attendance management cases'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Total'
+                    },
+                    value: {
+                        text: issuedTotal | friendlyNumber + ' total penalty notices issued for unauthroised absenses'
+                    }
+                }
+            }
+        }) }}
+
+        <h2 class="govuk-heading-m">Now send your application</h2>
+
+        <p class="govuk-body">By submitting this notification you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+
+        <form action="/form-handler" method="post" novalidate>
+
+        <input type="hidden" name="answers-checked" value="true">
+
+        {{ govukButton({
+            text: "Accept and send"
+        }) }}
+
+        </form>
+
+    </div>
+    </div>
+
+{% endblock %}

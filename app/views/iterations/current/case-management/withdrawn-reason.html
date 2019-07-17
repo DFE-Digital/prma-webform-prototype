@@ -1,0 +1,73 @@
+{% extends 'layout.html' %} {% block pageTitle %} Other reasons for withdrawal
+of attendance management cases {% endblock %} {% block beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+{% if (data['att-withdrawn-other'] == null) or (data['att-withdrawn-other'] | int == 0) %}
+
+    <script>
+    
+        window.location.href = '';
+    
+    </script>
+
+{% endif %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form action="../parenting-orders/totals.html">
+
+            {% if data['att-withdrawn-other'] | int > 1 %}
+
+                <h1 class="govuk-heading-xl">
+                    Other reasons for the withdrawals of attendance management cases
+                </h1>
+
+                <p>
+                    You have told us there were
+                    {{ data['att-withdrawn-other'] | friendlyNumber }} attendance management
+                    cases withdrawn for reasons other than improved attendance. Tell us the reason for the withdrawals of the
+                    {{ data['att-withdrawn-other'] | friendlyNumber }} stated attendance
+                    management cases.
+                </p>
+
+            {% else %}
+
+                <h1 class="govuk-heading-xl">
+                    Detail the reason for the withdrawal of the other attendance management case
+                </h1>
+
+                <p>
+                    You have told us there was an attendance management
+                    case withdrawn for reasons other than improved attendance. Tell us the reason for the withdrawals of the stated attendance
+                    management case.
+                </p>
+
+            {% endif %}
+
+			{{ govukTextarea ({
+                id: 'att-withdrawn-reason',
+                name: 'att-withdrawn-reason',
+                value: data['att-withdrawn-reason'] if data['att-withdrawn-reason'] else '',
+                label: {
+                    text: 'Reasons for withdrawal' + 's' if data['att-withdrawn-other'] | int > 1
+                }
+            }) }}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

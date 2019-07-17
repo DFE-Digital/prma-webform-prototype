@@ -1,0 +1,53 @@
+{% extends 'layout.html' %} {% block pageTitle %} Total number of penalty
+notices that were paid; {% endblock %} {% block beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form
+			action="{{ 'totals.html' if data['from-total'] == 'true' else 'prosecuted.html' }}"
+		>
+			<h1 class="govuk-heading-xl">
+				Total number of penalty notices (PNs) that were;
+			</h1>
+
+			{{ govukInput ({
+                    id: 'pns-paid-21',
+                    name: 'pns-paid-21',
+                    value: data['pns-paid-21'] if data['pns-paid-21'] else '',
+                    classes: 'govuk-input--width-5',
+                    type: 'number',
+                    label: {
+                        text: 'Paid within 21 days'
+                    }
+                }) }}
+
+			{{ govukInput ({
+                    id: 'pns-paid-22-28',
+                    name: 'pns-paid-22-28',
+                    value: data['pns-paid-22-28'] if data['pns-paid-22-28'] else '',
+                    classes: 'govuk-input--width-5',
+                    type: 'number',
+                    label: {
+                        text: 'Paid between 22 and 28 days'
+                    }
+                }) }}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

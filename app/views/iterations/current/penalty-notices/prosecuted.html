@@ -1,0 +1,44 @@
+{% extends 'layout.html' %} {% block pageTitle %} How many unpaid penalty
+notices (PNs) lead to prosecution for non-payment? {% endblock %} {% block
+beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form
+			action="{{ 'totals.html' if data['from-total'] == 'true' else 'withdrawn.html' }}"
+		>
+			<h1 class="govuk-heading-xl">
+				How many unpaid penalty notices (PNs) led to prosecution?
+			</h1>
+
+			{{ govukInput ({
+                id: 'pns-prosecuted',
+                name: 'pns-prosecuted',
+                value: data['pns-prosecuted'] if data['pns-prosecuted'] else '',
+                classes: 'govuk-input--width-5',
+                type: 'number',
+                label: {
+                    text: 'Label',
+                    classes: 'govuk-visually-hidden'
+                }
+            }) }}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

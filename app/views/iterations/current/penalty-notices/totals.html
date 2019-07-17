@@ -1,0 +1,195 @@
+{% extends 'layout.html' %} {% block pageTitle %} Check penalty notices (PNs)
+totals {% endblock %}
+
+{% set issuedTotal = [data['pns-holidays'], data['pns-late'], data['pns-other']] | stringSum %}
+{% set paidTotal = [data['pns-paid-21'], data['pns-paid-22-28']] | stringSum %}
+{% set withdrawnTotal = [data['pns-withdrawn-terms'], data['pns-withdrawn-person'], data['pns-withdrawn-errors'], data['pns-withdrawn-s444']] | stringSum %}
+{% set prosecutedTotal = [data['pns-prosecuted']] | stringSum %}
+{% set resolvedTotal = [paidTotal, withdrawnTotal, prosecutedTotal] | stringSum %}
+{% set unresolvedCount = [issuedTotal, '-'+resolvedTotal] | stringSum %}
+
+{% block beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+
+        {% if unresolvedCount < 0 %}
+
+            {{ govukErrorSummary({
+                titleText: 'There is a problem',
+                errorList: [
+                    {
+                    text: 'There are more resolved penalty notices than the amount issued',
+                    href: "#high-resolved"
+                    }
+                ]
+            }) }}
+
+        {% endif %}
+
+		<form action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../case-management/cases.html' }}">
+			<h1 class="govuk-heading-xl">
+				Check the total number of penalty notices that were issued, paid, led to prosecution or withdrawn
+            </h1>
+
+            <h2 class="govuk-heading-m">Issued penalty notices</h2>
+            
+            {{ govukSummaryList ({
+                rows: [
+                    {
+                        key: {
+                            text: 'Issued'
+                        },
+                        value: {
+                            text: issuedTotal | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    href: 'notices-issued.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'the number of issued penalty notices'
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }) }}
+
+            <h2 class="govuk-heading-m">Resolved penalty notices</h2>
+
+            {{ govukSummaryList ({
+                rows: [
+                    {
+                        key: {
+                            text: 'Paid'
+                        },
+                        value: {
+                            text: paidTotal | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    href: 'paid-notices.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'the number of paid penalty notices'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Prosecuted'
+                        },
+                        value: {
+                            text: prosecutedTotal | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    href: 'prosecuted.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'the number of prosecuted penalty notices'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Withdrawn'
+                        },
+                        value: {
+                            text: withdrawnTotal | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    href: 'withdrawn.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'the number of withdrawn penalty notices'
+                                }
+                            ]
+                        }
+                    }
+                ] 
+            }) }}
+
+            {% if unresolvedCount < 0 %}
+
+                {{ govukErrorMessage({
+                    text: 'There cannot be more resolved penalty notices than the total amount issued',
+                    visuallyHiddenText: "Error"
+                }) }}
+
+            {% endif %}
+
+            {{ govukSummaryList ({
+                classes: 'govuk-!-margin-bottom-7',
+                rows: [
+                    {
+                        key: {
+                            text: 'Total resolved PNs'
+                        },
+                        value: {
+                            text: resolvedTotal | friendlyNumber,
+                            classes: 'data-error' if unresolvedCount < 0
+                        }
+                    }
+                ] 
+            }) }}
+
+
+            {% if unresolvedCount > 0 %}
+
+                {{ govukRadios ({
+                    classes: 'govuk-radios--inline',
+                    idPrefix: 'confirm-unresolved',
+                    name: 'confirm-unresolved',
+                    fieldset: {
+                        legend: {
+                            text: 'Based on the information provided, there are ' + unresolvedCount | friendlyNumber + ' penalty notices that were not resolved, is this correct?',
+                            isPageHeading: false,
+                            classes: 'govuk-fieldset__legend--m'
+                        }
+                            },
+                            items: [
+                        {
+                            text: 'Yes',
+                            value: 'yes'
+                        },
+                        {
+                            text: 'No',
+                            value: 'no'
+                        }
+                    ]
+                }) }}
+
+            {% endif %}
+
+            {% if unresolvedCount >= 0 %}
+
+                {{ govukButton ({
+                    html: 'Continue'
+                }) }}
+
+            {% endif %}
+        
+
+		</form>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'layout.html' %} {% block pageTitle %} Which telephone number can we
+use for questions about the submission? {% endblock %} {% block beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form
+			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../penalty-notices/notices-issued.html' }}"
+		>
+			<h1 class="govuk-heading-xl">
+				Which phone number can we use for questions about the submission?
+			</h1>
+
+			{{ govukInput ({
+                    id: 'phone-number',
+                    name: 'phone-number',
+                    value: data['phone-number'] if data['phone-number'] else '',
+                    classes: 'govuk-input--width-20',
+                    label: {
+                        text: 'Telephone number',
+                        classes: 'govuk-visually-hidden'
+                    }
+                }) }}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

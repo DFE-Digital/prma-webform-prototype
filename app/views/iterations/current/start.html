@@ -1,0 +1,96 @@
+{% extends 'layout.html' %} {% block pageTitle %} Start page {% endblock %} {%
+block content %}
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<h1 class="govuk-heading-xl">{{ serviceName }}</h1>
+
+		<p class="govuk-body">
+			Use this service to submit your parental responsibility measures
+			attendance (PRM-A) census.
+		</p>
+
+		{{ govukInsetText({ html: 'This data collection covers the school year
+		<span style="white-space: nowrap">1 September 2018</span> to
+		<span style="white-space: nowrap">31 August 2019</span>.' }) }}
+
+		<p class="govuk-body">Sending this census takes around 30 minutes.</p>
+
+		{{
+			govukButton({
+				text: 'Start now',
+				href: 'contact-details/name.html',
+				classes:
+					'govuk-button--start govuk-!-margin-top-2 govuk-!-margin-bottom-8'
+			})
+		}}
+
+		<h2 class="govuk-heading-m">Before you start</h2>
+
+		<p class="govuk-body">You will need:</p>
+
+		<ul class="govuk-list govuk-list--bullet">
+			<li>
+				the number and details of attendance penalty notices sent, including:
+			</li>
+			<ul class="govuk-list govuk-list--bullet">
+				<li>how many were withdrawn</li>
+				<li>how many lead to prosecution</li>
+				<li>how many were unresolved</li>
+			</ul>
+			<li>the number and details of cases in case management, including:</li>
+			<ul class="govuk-list govuk-list--bullet">
+				<li>how many were withdrawn</li>
+				<li>how many lead to prosecution</li>
+			</ul>
+			<li>the number and details of parenting orders granted, including:</li>
+			<ul class="govuk-list govuk-list--bullet">
+				<li>how many were implemented</li>
+				<li>how many were not implemented because of a lack of provision</li>
+				<li>how many were not implemented because of a breach by a parent</li>
+			</ul>
+			<li>
+				the number and details of parenting contracts offered, including:
+			</li>
+			<ul class="govuk-list govuk-list--bullet">
+				<li>how many were accepted by parents</li>
+			</ul>
+			<li>
+				the number of education supervision orders, including:
+			</li>
+			<ul class="govuk-list govuk-list--bullet">
+				<li>how many were issued in place of prosecution</li>
+				<li>how many were issued as well as prosecution</li>
+			</ul>
+		</ul>
+	</div>
+
+	<div class="govuk-grid-column-one-third">
+		<!-- The Related items component is not part of GOV.UK Frontend but will be styled if used in the Prototype Kit -->
+
+		<aside class="app-related-items" role="complementary">
+			<h2 class="govuk-heading-m" id="subsection-title">
+				Subsection
+			</h2>
+			<nav role="navigation" aria-labelledby="subsection-title">
+				<ul class="govuk-list govuk-!-font-size-16">
+					<li>
+						<a class="govuk-link" href="#">
+							Related link
+						</a>
+					</li>
+					<li>
+						<a class="govuk-link" href="#">
+							Related link
+						</a>
+					</li>
+					<li>
+						<a href="#" class="govuk-link govuk-!-font-weight-bold">
+							More <span class="govuk-visually-hidden">in Subsection</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</aside>
+	</div>
+	{% endblock %}
+</div>
