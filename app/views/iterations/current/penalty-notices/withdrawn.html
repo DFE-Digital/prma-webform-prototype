@@ -12,7 +12,9 @@ endblock %} {% block beforeContent %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
-		<form action="totals.html">
+		<form
+			action="{{ 'totals.html' if data['from-total'] == 'true' else 'unresolved.html' }}"
+		>
 			<h1 class="govuk-heading-xl">
 				Total number of withdrawn penalty notices (PNs) where the reason was;
 			</h1>

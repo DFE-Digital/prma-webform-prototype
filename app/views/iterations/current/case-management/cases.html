@@ -12,7 +12,9 @@ management cases {% endblock %} {% block beforeContent %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
-		<form action="prosecuted.html">
+		<form
+			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'prosecuted.html' }}"
+		>
 			<h1 class="govuk-heading-xl">
 				Total number of attendance management cases
 			</h1>

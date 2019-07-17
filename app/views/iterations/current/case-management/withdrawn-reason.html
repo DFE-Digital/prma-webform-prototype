@@ -14,7 +14,7 @@ of attendance management cases {% endblock %} {% block beforeContent %}
 
     <script>
     
-        window.location.href = '';
+        window.location.href = '{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../parenting-orders/granted.html' }}';
     
     </script>
 
@@ -22,7 +22,7 @@ of attendance management cases {% endblock %} {% block beforeContent %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
-		<form action="../parenting-orders/totals.html">
+		<form action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../parenting-orders/granted.html' }}">
 
             {% if data['att-withdrawn-other'] | int > 1 %}
 
@@ -33,7 +33,10 @@ of attendance management cases {% endblock %} {% block beforeContent %}
                 <p>
                     You have told us there were
                     {{ data['att-withdrawn-other'] | friendlyNumber }} attendance management
-                    cases withdrawn for reasons other than improved attendance. Tell us the reason for the withdrawals of the
+                    cases withdrawn for reasons other than improved attendance. 
+                </p>
+                <p>
+                    Tell us the reason for the withdrawals of the
                     {{ data['att-withdrawn-other'] | friendlyNumber }} stated attendance
                     management cases.
                 </p>
@@ -46,7 +49,10 @@ of attendance management cases {% endblock %} {% block beforeContent %}
 
                 <p>
                     You have told us there was an attendance management
-                    case withdrawn for reasons other than improved attendance. Tell us the reason for the withdrawals of the stated attendance
+                    case withdrawn for reasons other than improved attendance. 
+                </p>
+                <p>
+                    Tell us the reason for the withdrawals of the stated attendance
                     management case.
                 </p>
 

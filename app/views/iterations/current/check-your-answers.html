@@ -5,7 +5,8 @@
 {% set withdrawnTotal = [data['pns-withdrawn-terms'], data['pns-withdrawn-person'], data['pns-withdrawn-errors'], data['pns-withdrawn-s444']] | stringSum %}
 {% set prosecutedTotal = [data['pns-prosecuted']] | stringSum %}
 {% set resolvedTotal = [paidTotal, withdrawnTotal, prosecutedTotal] | stringSum %}
-{% set unresolvedCount = [issuedTotal, '-'+resolvedTotal] | stringSum %}
+{% set unresolvedCount = [data['pns-unresolved']] | stringSum %}
+{% set balance = [issuedTotal, '-'+resolvedTotal] | stringSum %}
 
 {% block pageTitle %}
     Check your answers
@@ -94,6 +95,7 @@
 
         
         {{ govukSummaryList ({
+            classes: 'govuk-summary-long',
             rows: [
                 {
                     key: {
@@ -151,16 +153,17 @@
                 },
                 {
                     key: {
-                        text: 'Total'
+                        text: 'Total penalty notices issued for unauthroised absenses'
                     },
                     value: {
-                        text: issuedTotal | friendlyNumber + ' total penalty notices issued for unauthroised absenses'
+                        text: issuedTotal | friendlyNumber
                     }
                 }
             }
         }) }}
 
         {{ govukSummaryList ({
+            classes: 'govuk-summary-long',
             rows: [
                 {
                     key: {
@@ -197,26 +200,19 @@
                             }
                         ]
                     }
-                },
-                {
-                    key: {
-                        text: 'Total'
-                    },
-                    value: {
-                        text: paidTotal | friendlyNumber + ' penalty notices were paid'
-                    }
                 }
             }
         }) }}
 
         {{ govukSummaryList ({
+            classes: 'govuk-summary-long',
             rows: [
                 {
                     key: {
-                        text: 'Prosecuted for non-payment'
+                        text: 'Led to prosecution because they were not paid'
                     },
                     value: {
-                        text: data['pns-prosecuted'] | friendlyNumber + ' penalty notices led to prosecution because they were not paid'
+                        text: data['pns-prosecuted'] | friendlyNumber
                     },
                     actions: {
                         items: [
@@ -233,6 +229,7 @@
         }) }}
 
         {{ govukSummaryList ({
+            classes: 'govuk-summary-long',
             rows: [
                 {
                     key: {
@@ -254,7 +251,7 @@
                 },
                 {
                     key: {
-                        text: 'Withdrawn because it should not have been issued or issued to recipent'
+                        text: 'Withdrawn because it should not have been issued or issued to wrong person'
                     },
                     value: {
                         text: data['pns-withdrawn-person'] | friendlyNumber
@@ -265,17 +262,17 @@
                                 text: 'Change',
                                 href: 'penalty-notices/withdrawn.html?from-check=true&from-total=true',
                                 classes: 'govuk-link--no-visited-state',
-                                visuallyHiddenText: 'number of withdrawn penalty notices because it should not have been issued or issued to recipent'
+                                visuallyHiddenText: 'number of withdrawn penalty notices because it should not have been issued or issued to wrong person'
                             }
                         ]
                     }
                 },
                 {
                     key: {
-                        text: 'Withdrawn for any other reason'
+                        text: 'Withdrawn because of material errors'
                     },
                     value: {
-                        text: data['att-withdrawn-other'] | friendlyNumber
+                        text: data['pns-withdrawn-errors'] | friendlyNumber
                     },
                     actions: {
                         items: [
@@ -290,25 +287,72 @@
                 },
                 {
                     key: {
-                        text: 'Total'
+                        text: 'Withdrawn because it was unpaid and not prosecuted'
                     },
                     value: {
-                        text: withdrawnTotal | friendlyNumber + ' penalty notices were withdrawn'
+                        text: data['pns-withdrawn-s444'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/withdrawn.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of withdrawn because it was unpaid and not prosecuted'
+                            }
+                        ]
                     }
-                }
+                },
+                {
+                    key: {
+                        text: 'Unresolved'
+                    },
+                    value: {
+                        text: data['pns-unresolved'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/unresolved.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of withdrawn for any other reason'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Reason why the total issued doesn’t match the total paid, led to prosecution, withdrawn or unresolved'
+                    },
+                    value: {
+                        text: data['pns-unbalanced-reason']
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'penalty-notices/unresolved.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'reason why the total issued doesn’t match the total paid, led to prosecution, withdrawn or unresolved'
+                            }
+                        ]
+                    }
+                } if balance != 0
             }
         }) }}
 
         {% if unresolvedCount != 0 %}
 
             {{ govukSummaryList ({
+                classes: 'govuk-summary-long',
                 rows: [
                     {
                         key: {
-                            text: 'Unresolved penalty notices'
+                            text: 'Unresolved'
                         },
                         value: {
-                            text: unresolvedCount | friendlyNumber + ' were neither paid, led to prosecution or were withdrawn'
+                            text: unresolvedCount | friendlyNumber
                         },
                         actions: {
                             items: [
@@ -330,6 +374,7 @@
 
         
         {{ govukSummaryList ({
+            classes: 'govuk-summary-long',
             rows: [
                 {
                     key: {
@@ -369,30 +414,159 @@
                 },
                 {
                     key: {
-                        text: 'Prosecutions resulting from cases'
+                        text: 'Cases withdrawn because of improved attendance'
                     },
                     value: {
-                        text: data['att-prosecuted'] | friendlyNumber
+                        text: data['att-withdrawn-improved'] | friendlyNumber
                     },
                     actions: {
                         items: [
                             {
                                 text: 'Change',
-                                href: 'case-management/prosecuted.html?from-check=true',
+                                href: 'case-management/withdrawn.html?from-check=true',
                                 classes: 'govuk-link--no-visited-state',
-                                visuallyHiddenText: 'number of prosecutions resulting from attendance management cases'
+                                visuallyHiddenText: 'number of cases withdrawn because of improved attendance'
                             }
                         ]
                     }
                 },
                 {
                     key: {
-                        text: 'Total'
+                        text: 'Cases withdrawn for other reasons'
                     },
                     value: {
-                        text: issuedTotal | friendlyNumber + ' total penalty notices issued for unauthroised absenses'
+                        text: data['att-withdrawn-other'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'case-management/withdrawn.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of cases withdrawn for other reasons'
+                            }
+                        ]
+                    }
+                },
+                {
+                    classes: 'govuk-summary-short',
+                    key: {
+                        text: 'Reasons for other withdrawals'
+                    },
+                    value: {
+                        html: data['att-withdrawn-reason']
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'case-management/withdrawn-reason.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of cases withdrawn for other reasons'
+                            }
+                        ]
+                    }
+                } if data['att-withdrawn-other'] | int != 0
+            }
+        }) }}
+
+        <h2 class="govuk-heading-m">Parenting orders</h2>
+
+        
+        {{ govukSummaryList ({
+            classes: 'govuk-summary-long',
+            rows: [
+                {
+                    key: {
+                        text: 'Total granted'
+                    },
+                    value: {
+                        text: data['po-granted'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'parenting-orders/granted.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of granted parenting orders'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Implemented'
+                    },
+                    value: {
+                        text: data['po-implemented'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'parenting-orders/granted.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of implemented parenting orders'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Not implemented because of lack of provision'
+                    },
+                    value: {
+                        text: data['po-ni-provision'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'parenting-orders/granted.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of parenting orders not implemented because of lack of provision'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Not implemented because of a breach by a parent'
+                    },
+                    value: {
+                        text: data['po-ni-provision'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'parenting-orders/granted.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of parenting orders not implemented because of lack of provision'
+                            }
+                        ]
                     }
                 }
+                {
+                    classes: 'govuk-summary-short',
+                    key: {
+                        text: 'Reasons for other withdrawals'
+                    },
+                    value: {
+                        html: data['att-withdrawn-reason']
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'case-management/withdrawn-reason.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of cases withdrawn for other reasons'
+                            }
+                        ]
+                    }
+                } if data['att-withdrawn-other'] | int != 0
             }
         }) }}
 
