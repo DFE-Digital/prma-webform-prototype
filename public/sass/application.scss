@@ -56,3 +56,21 @@ $govuk-global-styles: true;
 		width: 30%;
 	}
 }
+
+.govuk-summary-short {
+	.govuk-summary-list__key {
+		width: 30%;
+	}
+	.govuk-summary-list__value {
+		width: 50%;
+	}
+}
+
+.govuk-summary-long .govuk-summary-short {
+	.govuk-summary-list__key {
+		width: 30%;
+	}
+	.govuk-summary-list__value {
+		width: 50%;
+	}
+}
