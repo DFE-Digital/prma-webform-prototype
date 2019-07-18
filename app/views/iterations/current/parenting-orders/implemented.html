@@ -12,19 +12,21 @@ parenting orders {% endblock %} {% block beforeContent %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
-		<form action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'implemented.html' }}">
+		<form
+			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'not-implemented.html' }}"
+		>
 			<h1 class="govuk-heading-xl">
-				How many parenting orders were granted?
+				How many parenting orders were implemented
 			</h1>
 
 			{{ govukInput ({
-                id: 'po-granted',
-                name: 'po-granted',
-                value: data['po-granted'] if data['po-granted'] else '',
+                id: 'po-implemented',
+                name: 'po-implemented',
+                value: data['po-implemented'] if data['po-implemented'] else '',
                 classes: 'govuk-input--width-5',
                 label: {
-                    text: 'Granted parenting orders',
-					classes: 'govuk-visually-hidden'
+                    text: 'Have been implemented',
+                    classes: 'govuk-visually-hidden'
                 }
             }) }}
 

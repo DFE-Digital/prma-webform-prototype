@@ -44,7 +44,7 @@
                         items: [
                             {
                                 text: 'Change',
-                                href: 'contact-details/name.html?from-check=true',
+                                href: 'contact-details/contact-details.html?from-check=true',
                                 classes: 'govuk-link--no-visited-state',
                                 visuallyHiddenText: 'name'
                             }
@@ -62,7 +62,7 @@
                         items: [
                             {
                                 text: 'Change',
-                                href: 'contact-details/email.html?from-check=true',
+                                href: 'contact-details/contact-details.html?from-check=true',
                                 classes: 'govuk-link--no-visited-state',
                                 visuallyHiddenText: 'email address'
                             }
@@ -80,7 +80,7 @@
                         items: [
                             {
                                 text: 'Change',
-                                href: 'contact-details/phone.html?from-check=true',
+                                href: 'contact-details/contact-details.html?from-check=true',
                                 classes: 'govuk-link--no-visited-state',
                                 visuallyHiddenText: 'email address'
                             }
@@ -153,7 +153,7 @@
                 },
                 {
                     key: {
-                        text: 'Total penalty notices issued for unauthroised absenses'
+                        text: 'Total penalty notices issued for unauthorised absences'
                     },
                     value: {
                         text: issuedTotal | friendlyNumber
@@ -323,7 +323,7 @@
                 },
                 {
                     key: {
-                        text: 'Reason why the total issued doesn’t match the total paid, led to prosecution, withdrawn or unresolved'
+                        text: 'Reason why the number of penalty notices that were either actioned or unresolved is not the same as the number that were issued'
                     },
                     value: {
                         text: data['pns-unbalanced-reason']
@@ -334,41 +334,13 @@
                                 text: 'Change',
                                 href: 'penalty-notices/unresolved.html?from-check=true&from-total=true',
                                 classes: 'govuk-link--no-visited-state',
-                                visuallyHiddenText: 'reason why the total issued doesn’t match the total paid, led to prosecution, withdrawn or unresolved'
+                                visuallyHiddenText: 'reason why the number of penalty notices that were either actioned or unresolved is not the same as the number that were issued'
                             }
                         ]
                     }
                 } if balance != 0
             }
         }) }}
-
-        {% if unresolvedCount != 0 %}
-
-            {{ govukSummaryList ({
-                classes: 'govuk-summary-long',
-                rows: [
-                    {
-                        key: {
-                            text: 'Unresolved'
-                        },
-                        value: {
-                            text: unresolvedCount | friendlyNumber
-                        },
-                        actions: {
-                            items: [
-                                {
-                                    text: 'Review',
-                                    href: 'penalty-notices/totals.html?from-check=true&from-total=true',
-                                    classes: 'govuk-link--no-visited-state',
-                                    visuallyHiddenText: 'number of penalty notices withdrawn'
-                                }
-                            ]
-                        }
-                    }
-                }
-            }) }}
-
-        {% endif %}
 
         <h2 class="govuk-heading-m">Attendance management cases</h2>
 
@@ -505,7 +477,7 @@
                         items: [
                             {
                                 text: 'Change',
-                                href: 'parenting-orders/granted.html?from-check=true',
+                                href: 'parenting-orders/implemented.html?from-check=true',
                                 classes: 'govuk-link--no-visited-state',
                                 visuallyHiddenText: 'number of implemented parenting orders'
                             }
@@ -523,7 +495,7 @@
                         items: [
                             {
                                 text: 'Change',
-                                href: 'parenting-orders/granted.html?from-check=true',
+                                href: 'parenting-orders/not-implemented.html?from-check=true',
                                 classes: 'govuk-link--no-visited-state',
                                 visuallyHiddenText: 'number of parenting orders not implemented because of lack of provision'
                             }
@@ -535,46 +507,125 @@
                         text: 'Not implemented because of a breach by a parent'
                     },
                     value: {
-                        text: data['po-ni-provision'] | friendlyNumber
+                        text: data['po-ni-parent'] | friendlyNumber
                     },
                     actions: {
                         items: [
                             {
                                 text: 'Change',
-                                href: 'parenting-orders/granted.html?from-check=true',
+                                href: 'parenting-orders/not-implemented.html?from-check=true',
                                 classes: 'govuk-link--no-visited-state',
                                 visuallyHiddenText: 'number of parenting orders not implemented because of lack of provision'
                             }
                         ]
                     }
                 }
+            }
+        }) }}
+
+        <h2 class="govuk-heading-m">Parenting contracts</h2>
+
+        
+        {{ govukSummaryList ({
+            classes: 'govuk-summary-long',
+            rows: [
                 {
-                    classes: 'govuk-summary-short',
                     key: {
-                        text: 'Reasons for other withdrawals'
+                        text: 'Total offered'
                     },
                     value: {
-                        html: data['att-withdrawn-reason']
+                        text: data['pc-offered'] | friendlyNumber
                     },
                     actions: {
                         items: [
                             {
                                 text: 'Change',
-                                href: 'case-management/withdrawn-reason.html?from-check=true',
+                                href: 'parenting-contracts/totals.html?from-check=true',
                                 classes: 'govuk-link--no-visited-state',
-                                visuallyHiddenText: 'number of cases withdrawn for other reasons'
+                                visuallyHiddenText: 'number of granted parenting orders'
                             }
                         ]
                     }
-                } if data['att-withdrawn-other'] | int != 0
+                },
+                {
+                    key: {
+                        text: 'Accepted by parents'
+                    },
+                    value: {
+                        text: data['pc-accepted'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'parenting-contracts/totals.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of implemented parenting orders'
+                            }
+                        ]
+                    }
+                }
             }
         }) }}
 
-        <h2 class="govuk-heading-m">Now send your application</h2>
+        <h2 class="govuk-heading-m">Education supervision orders</h2>
 
-        <p class="govuk-body">By submitting this notification you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+        
+        {{ govukSummaryList ({
+            classes: 'govuk-summary-long',
+            rows: [
+                {
+                    key: {
+                        text: 'Issued in place of prosecution'
+                    },
+                    value: {
+                        text: data['eso-in-place'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'education-supervision/totals.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of granted parenting orders'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Issued as well as prosecution'
+                    },
+                    value: {
+                        text: data['eso-as-well'] | friendlyNumber
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                href: 'education-supervision/totals.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of implemented parenting orders'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Total education supervision orders issued'
+                    },
+                    value: {
+                        text: (data['eso-in-place'] | int + data['eso-as-well'] | int)  | friendlyNumber
+                    }
+                }
+            }
+        }) }}
 
-        <form action="/form-handler" method="post" novalidate>
+        <h2 class="govuk-heading-m">Now send the census</h2>
+
+        <p class="govuk-body">By submitting this census you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+
+        <form action="confirmation.html" novalidate>
 
         <input type="hidden" name="answers-checked" value="true">
 

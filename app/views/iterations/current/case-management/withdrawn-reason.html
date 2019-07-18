@@ -31,11 +31,6 @@ of attendance management cases {% endblock %} {% block beforeContent %}
                 </h1>
 
                 <p>
-                    You have told us there were
-                    {{ data['att-withdrawn-other'] | friendlyNumber }} attendance management
-                    cases withdrawn for reasons other than improved attendance. 
-                </p>
-                <p>
                     Tell us the reason for the withdrawals of the
                     {{ data['att-withdrawn-other'] | friendlyNumber }} stated attendance
                     management cases.
@@ -72,6 +67,10 @@ of attendance management cases {% endblock %} {% block beforeContent %}
 					html: 'Continue'
 				})
 			}}
+
+            <p>
+                <a href="withdrawn">Change the number of withdrawn attendance management cases</a>
+            </p>
 		</form>
 	</div>
 </div>

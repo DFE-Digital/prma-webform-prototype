@@ -16,7 +16,7 @@ management cases {% endblock %} {% block beforeContent %}
 			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'withdrawn.html' }}"
 		>
 			<h1 class="govuk-heading-xl">
-				How many prosecutions resulted from attendance management cases?
+				How many attendance management cases led to prosecution?
 			</h1>
 
 			{{
@@ -24,12 +24,6 @@ management cases {% endblock %} {% block beforeContent %}
 					text: 'Include cases within the fast-track case management system.'
 				})
 			}}
-
-			<p>
-				Tell us the number of prosecutions, not cases. For example, if both
-				parents were prosecuted as a result of a case this would be recorded as
-				2.
-			</p>
 
 			{{ govukInput ({
                 id: 'att-prosecuted',

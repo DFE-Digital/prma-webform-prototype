@@ -28,34 +28,8 @@ totals {% endblock %}
 				Check the total number of penalty notices that were issued, paid, led to prosecution or withdrawn
             </h1>
 
-            <h2 class="govuk-heading-m">Issued penalty notices</h2>
-            
             {{ govukSummaryList ({
-                rows: [
-                    {
-                        key: {
-                            text: 'Issued'
-                        },
-                        value: {
-                            text: issuedTotal | friendlyNumber
-                        },
-                        actions: {
-                            items: [
-                                {
-                                    text: 'Change',
-                                    href: 'notices-issued.html?from-total=true',
-                                    classes: 'govuk-link--no-visited-state',
-                                    visuallyHiddenText: 'the number of issued penalty notices'
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }) }}
-
-            <h2 class="govuk-heading-m">Penalty notices by status</h2>
-
-            {{ govukSummaryList ({
+                classes: 'govuk-!-margin-bottom-7', 
                 rows: [
                     {
                         key: {
@@ -139,20 +113,38 @@ totals {% endblock %}
                     }
                 ] 
             }) }}
+            
+            {{ govukSummaryList ({
+                rows: [
+                    {
+                        key: {
+                            text: 'Issued'
+                        },
+                        value: {
+                            text: issuedTotal | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    href: 'notices-issued.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'the number of issued penalty notices'
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }) }}
 
             {% if balance != 0 %}
-
-                {{ govukWarningText ({
-                    text: 'The number of penalty notices issued does not equal the number that were paid, led to prosecution, withdrawn or unresolved',
-                    iconFallbackText: 'Query'
-                }) }}
 
                 {{ govukTextarea ({
                     id: 'pns-unbalanced-reason',
                     name: 'pns-unbalanced-reason',
                     value: data['pns-unbalanced-reason'] if data['pns-unbalanced-reason'] else '',
                     label: {
-                        text: 'Give a reason why the number of penalty notices issued does not equal the amount that were paid, led to prosecution, withdrawn or unresolved'
+                        text: 'Give the reason why the number of penalty notices that were either actioned or unresolved is not the same as the number that were issued'
                     }
                 }) }}
 

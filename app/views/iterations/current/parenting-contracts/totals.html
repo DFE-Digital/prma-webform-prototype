@@ -12,7 +12,9 @@ contracts offered {% endblock %} {% block beforeContent %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
-		<form action="../education-supervision/totals.html">
+		<form
+			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../education-supervision/totals.html' }}"
+		>
 			<h1 class="govuk-heading-xl">
 				Total number of parenting contracts that were;
 			</h1>

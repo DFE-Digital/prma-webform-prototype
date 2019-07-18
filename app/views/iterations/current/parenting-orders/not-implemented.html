@@ -12,27 +12,10 @@ parenting orders {% endblock %} {% block beforeContent %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
-		<form action="../parenting-contracts/totals.html">
+		<form action="{{ '../check-your-answers.html' if (data['from-check'] == 'true') else '../parenting-contracts/totals.html' }}">
 			<h1 class="govuk-heading-xl">
-				Total number of granted parenting orders that;
+				Total number of granted parenting orders that were not implemented because of;
 			</h1>
-
-			{{
-				govukInsetText({
-					text:
-						'Tell us about parenting orders granted following unauthorised absences only.'
-				})
-			}}
-
-			{{ govukInput ({
-                id: 'po-implemented',
-                name: 'po-implemented',
-                value: data['po-implemented'] if data['po-implemented'] else '',
-                classes: 'govuk-input--width-5',
-                label: {
-                    text: 'Have been implemented'
-                }
-            }) }}
 
 			{{ govukInput ({
                 id: 'po-ni-provision',
@@ -40,7 +23,7 @@ parenting orders {% endblock %} {% block beforeContent %}
                 value: data['po-ni-provision'] if data['po-ni-provision'] else '',
                 classes: 'govuk-input--width-5',
                 label: {
-                    text: 'Have not been implemented because of lack of provision'
+                    text: 'Lack of provision'
                 }
             }) }}
 
@@ -50,7 +33,7 @@ parenting orders {% endblock %} {% block beforeContent %}
                 value: data['po-ni-parent'] if data['po-ni-parent'] else '',
                 classes: 'govuk-input--width-5',
                 label: {
-                    text: 'Have not been implemented because of a breach by a parent'
+                    text: 'Breach by a parent'
                 }
             }) }}
 
