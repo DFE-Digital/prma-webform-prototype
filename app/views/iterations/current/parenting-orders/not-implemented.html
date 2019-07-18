@@ -14,7 +14,7 @@ parenting orders {% endblock %} {% block beforeContent %}
 	<div class="govuk-grid-column-two-thirds">
 		<form action="{{ '../check-your-answers.html' if (data['from-check'] == 'true') else '../parenting-contracts/totals.html' }}">
 			<h1 class="govuk-heading-xl">
-				Total number of granted parenting orders that were not implemented because of;
+				Total number of granted parenting orders that were not implemented because of:
 			</h1>
 
 			{{ govukInput ({
