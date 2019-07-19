@@ -1,5 +1,16 @@
 {% extends 'layout.html' %} {% block pageTitle %} Confirmation {% endblock %} {%
-block content %}
+block beforeContent %}
+
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{% endblock%} {% block content %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">

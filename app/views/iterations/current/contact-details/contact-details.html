@@ -1,29 +1,34 @@
-{% extends 'layout.html' %}
+{% extends 'layout.html' %} {% block pageTitle %} Who can we contact if we have
+questions about this census? {% endblock %} {% block beforeContent %}
 
-{% block pageTitle %}
-    Who can we contact if we have questions about this census?
-{% endblock %}
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
 
-{% block beforeContent %}
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
 
-    {{ govukBackLink ({
-        text: 'Back',
-        href: 'javascript:history.back()'
-    }) }}
-
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 
 <div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form
+			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../penalty-notices/notices-issued.html' }}"
+		>
+			<h1 class="govuk-heading-xl">
+				Who can we contact if we have questions about this census?
+			</h1>
 
-        <div class="govuk-grid-column-two-thirds">
-
-            <form action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../penalty-notices/notices-issued.html' }}">
-
-                <h1 class="govuk-heading-xl">Who can we contact if we have questions about this census?</h1>
-
-                {{ govukInput ({
+			{{ govukInput ({
                     id: 'first-name',
                     name: 'first-name',
                     value: data['first-name'] if data['first-name'] else '',
@@ -33,8 +38,8 @@
                         classes: 'govuk-input--width-20'
                     }
                 }) }}
-    
-                {{ govukInput ({
+
+			{{ govukInput ({
                     id: 'last-name',
                     name: 'last-name',
                     value: data['last-name'] if data['last-name'] else '',
@@ -44,7 +49,7 @@
                     }
                 }) }}
 
-                {{ govukInput ({
+			{{ govukInput ({
                     id: 'email-address',
                     name: 'email-address',
                     value: data['email-address'] if data['email-address'] else '',
@@ -55,7 +60,7 @@
                     }
                 }) }}
 
-                {{ govukInput ({
+			{{ govukInput ({
                     id: 'phone-number',
                     name: 'phone-number',
                     value: data['phone-number'] if data['phone-number'] else '',
@@ -65,14 +70,13 @@
                     }
                 }) }}
 
-                {{ govukButton ({
-                    html: 'Continue'
-                }) }}
-
-            </form>
-
-        </div>
-
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
 </div>
 
 {% endblock %}

@@ -1,37 +1,41 @@
-{% extends 'layout.html' %}
+{% extends 'layout.html' %} {% set issuedTotal = [data['pns-holidays'],
+data['pns-late'], data['pns-other']] | stringSum %} {% set paidTotal =
+[data['pns-paid-21'], data['pns-paid-22-28']] | stringSum %} {% set
+withdrawnTotal = [data['pns-withdrawn-terms'], data['pns-withdrawn-person'],
+data['pns-withdrawn-errors'], data['pns-withdrawn-s444']] | stringSum %} {% set
+prosecutedTotal = [data['pns-prosecuted']] | stringSum %} {% set resolvedTotal =
+[paidTotal, withdrawnTotal, prosecutedTotal] | stringSum %} {% set
+unresolvedCount = [data['pns-unresolved']] | stringSum %} {% set balance =
+[issuedTotal, '-'+resolvedTotal] | stringSum %} {% block pageTitle %} Check your
+answers {% endblock %} {% block beforeContent %}
 
-{% set issuedTotal = [data['pns-holidays'], data['pns-late'], data['pns-other']] | stringSum %}
-{% set paidTotal = [data['pns-paid-21'], data['pns-paid-22-28']] | stringSum %}
-{% set withdrawnTotal = [data['pns-withdrawn-terms'], data['pns-withdrawn-person'], data['pns-withdrawn-errors'], data['pns-withdrawn-s444']] | stringSum %}
-{% set prosecutedTotal = [data['pns-prosecuted']] | stringSum %}
-{% set resolvedTotal = [paidTotal, withdrawnTotal, prosecutedTotal] | stringSum %}
-{% set unresolvedCount = [data['pns-unresolved']] | stringSum %}
-{% set balance = [issuedTotal, '-'+resolvedTotal] | stringSum %}
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
 
-{% block pageTitle %}
-    Check your answers
-{% endblock %}
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
 
-{% block beforeContent %}
-
-    {{ govukBackLink ({
-        text: 'Back',
-        href: 'javascript:history.back()'
-    }) }}
-
-{% endblock %}
-
-{% block content %}
+{% endblock %} {% block content %}
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds-from-desktop">
+	<div class="govuk-grid-column-two-thirds-from-desktop">
+		<h1 class="govuk-heading-xl">
+			Check your answers before sending the census
+		</h1>
 
-        <h1 class="govuk-heading-xl">Check your answers before sending the census</h1>
+		<h2 class="govuk-heading-m">Contact details</h2>
 
-        <h2 class="govuk-heading-m">Contact details</h2>
-
-        
-        {{ govukSummaryList ({
+		{{ govukSummaryList ({
             rows: [
                 {
                     key: {
@@ -90,11 +94,9 @@
             }
         }) }}
 
+		<h2 class="govuk-heading-m">Penalty notices</h2>
 
-        <h2 class="govuk-heading-m">Penalty notices</h2>
-
-        
-        {{ govukSummaryList ({
+		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
             rows: [
                 {
@@ -162,7 +164,7 @@
             }
         }) }}
 
-        {{ govukSummaryList ({
+		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
             rows: [
                 {
@@ -204,7 +206,7 @@
             }
         }) }}
 
-        {{ govukSummaryList ({
+		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
             rows: [
                 {
@@ -228,7 +230,7 @@
             }
         }) }}
 
-        {{ govukSummaryList ({
+		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
             rows: [
                 {
@@ -342,10 +344,9 @@
             }
         }) }}
 
-        <h2 class="govuk-heading-m">Attendance management cases</h2>
+		<h2 class="govuk-heading-m">Attendance management cases</h2>
 
-        
-        {{ govukSummaryList ({
+		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
             rows: [
                 {
@@ -442,10 +443,9 @@
             }
         }) }}
 
-        <h2 class="govuk-heading-m">Parenting orders</h2>
+		<h2 class="govuk-heading-m">Parenting orders</h2>
 
-        
-        {{ govukSummaryList ({
+		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
             rows: [
                 {
@@ -523,10 +523,9 @@
             }
         }) }}
 
-        <h2 class="govuk-heading-m">Parenting contracts</h2>
+		<h2 class="govuk-heading-m">Parenting contracts</h2>
 
-        
-        {{ govukSummaryList ({
+		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
             rows: [
                 {
@@ -568,10 +567,9 @@
             }
         }) }}
 
-        <h2 class="govuk-heading-m">Education supervision orders</h2>
+		<h2 class="govuk-heading-m">Education supervision orders</h2>
 
-        
-        {{ govukSummaryList ({
+		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
             rows: [
                 {
@@ -621,21 +619,23 @@
             }
         }) }}
 
-        <h2 class="govuk-heading-m">Now send the census</h2>
+		<h2 class="govuk-heading-m">Now send the census</h2>
 
-        <p class="govuk-body">By submitting this census you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+		<p class="govuk-body">
+			By submitting this census you are confirming that, to the best of your
+			knowledge, the details you are providing are correct.
+		</p>
 
-        <form action="nil-return.html" novalidate>
+		<form action="nil-return.html" novalidate>
+			<input type="hidden" name="answers-checked" value="true" />
 
-        <input type="hidden" name="answers-checked" value="true">
-
-        {{ govukButton({
-            text: "Accept and send"
-        }) }}
-
-        </form>
-
-    </div>
-    </div>
+			{{
+				govukButton({
+					text: 'Accept and send'
+				})
+			}}
+		</form>
+	</div>
+</div>
 
 {% endblock %}

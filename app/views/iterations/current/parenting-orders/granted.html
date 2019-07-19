@@ -2,6 +2,15 @@
 parenting orders {% endblock %} {% block beforeContent %}
 
 {{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{{
 	govukBackLink({
 		text: 'Back',
 		href: 'javascript:history.back()'
@@ -12,7 +21,9 @@ parenting orders {% endblock %} {% block beforeContent %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
-		<form action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'implemented.html' }}">
+		<form
+			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'implemented.html' }}"
+		>
 			<h1 class="govuk-heading-xl">
 				How many parenting orders were granted?
 			</h1>

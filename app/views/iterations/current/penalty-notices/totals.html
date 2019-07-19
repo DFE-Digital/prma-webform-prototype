@@ -1,15 +1,22 @@
 {% extends 'layout.html' %} {% block pageTitle %} Check penalty notices (PNs)
-totals {% endblock %}
+totals {% endblock %} {% set issuedTotal = [data['pns-holidays'],
+data['pns-late'], data['pns-other']] | stringSum %} {% set paidTotal =
+[data['pns-paid-21'], data['pns-paid-22-28']] | stringSum %} {% set
+withdrawnTotal = [data['pns-withdrawn-terms'], data['pns-withdrawn-person'],
+data['pns-withdrawn-errors'], data['pns-withdrawn-s444']] | stringSum %} {% set
+prosecutedTotal = [data['pns-prosecuted']] | stringSum %} {% set resolvedTotal =
+[paidTotal, withdrawnTotal, prosecutedTotal] | stringSum %} {% set
+unresolvedCount = [data['pns-unresolved']] | stringSum %} {% set balance =
+[issuedTotal, '-'+resolvedTotal] | stringSum %} {% block beforeContent %}
 
-{% set issuedTotal = [data['pns-holidays'], data['pns-late'], data['pns-other']] | stringSum %}
-{% set paidTotal = [data['pns-paid-21'], data['pns-paid-22-28']] | stringSum %}
-{% set withdrawnTotal = [data['pns-withdrawn-terms'], data['pns-withdrawn-person'], data['pns-withdrawn-errors'], data['pns-withdrawn-s444']] | stringSum %}
-{% set prosecutedTotal = [data['pns-prosecuted']] | stringSum %}
-{% set resolvedTotal = [paidTotal, withdrawnTotal, prosecutedTotal] | stringSum %}
-{% set unresolvedCount = [data['pns-unresolved']] | stringSum %}
-{% set balance = [issuedTotal, '-'+resolvedTotal] | stringSum %}
-
-{% block beforeContent %}
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
 
 {{
 	govukBackLink({
@@ -22,143 +29,149 @@ totals {% endblock %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
-
-		<form action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../case-management/cases.html' }}">
+		<form
+			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../case-management/cases.html' }}"
+		>
 			<h1 class="govuk-heading-xl">
-				Check the total number of penalty notices that were issued, paid, led to prosecution or withdrawn
-            </h1>
+				Check the total number of actioned or unresolved penalty notices against how many were issued
+			</h1>
 
-            {{ govukSummaryList ({
-                classes: 'govuk-!-margin-bottom-7', 
-                rows: [
-                    {
-                        key: {
-                            text: 'Paid'
-                        },
-                        value: {
-                            text: paidTotal | friendlyNumber
-                        },
-                        actions: {
-                            items: [
-                                {
-                                    text: 'Change',
-                                    href: 'paid-notices.html?from-total=true',
-                                    classes: 'govuk-link--no-visited-state',
-                                    visuallyHiddenText: 'the number of paid penalty notices'
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        key: {
-                            text: 'Prosecuted'
-                        },
-                        value: {
-                            text: prosecutedTotal | friendlyNumber
-                        },
-                        actions: {
-                            items: [
-                                {
-                                    text: 'Change',
-                                    href: 'prosecuted.html?from-total=true',
-                                    classes: 'govuk-link--no-visited-state',
-                                    visuallyHiddenText: 'the number of prosecuted penalty notices'
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        key: {
-                            text: 'Withdrawn'
-                        },
-                        value: {
-                            text: withdrawnTotal | friendlyNumber
-                        },
-                        actions: {
-                            items: [
-                                {
-                                    text: 'Change',
-                                    href: 'withdrawn.html?from-total=true',
-                                    classes: 'govuk-link--no-visited-state',
-                                    visuallyHiddenText: 'the number of withdrawn penalty notices'
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        key: {
-                            text: 'Unresolved'
-                        },
-                        value: {
-                            text: data['pns-unresolved'] | friendlyNumber
-                        },
-                        actions: {
-                            items: [
-                                {
-                                    text: 'Change',
-                                    href: 'unresolved.html?from-total=true',
-                                    classes: 'govuk-link--no-visited-state',
-                                    visuallyHiddenText: 'the number of withdrawn penalty notices'
-                                }
-                            ]
-                        }
-                    },
-                    {
-                        key: {
-                            text: 'Total'
-                        },
-                        value: {
-                            text: (resolvedTotal + unresolvedCount) | friendlyNumber
-                        }
-                    }
-                ] 
-            }) }}
-            
-            {{ govukSummaryList ({
-                rows: [
-                    {
-                        key: {
-                            text: 'Issued'
-                        },
-                        value: {
-                            text: issuedTotal | friendlyNumber
-                        },
-                        actions: {
-                            items: [
-                                {
-                                    text: 'Change',
-                                    href: 'notices-issued.html?from-total=true',
-                                    classes: 'govuk-link--no-visited-state',
-                                    visuallyHiddenText: 'the number of issued penalty notices'
-                                }
-                            ]
-                        }
-                    }
-                ]
-            }) }}
+			{{
+				govukSummaryList({
+					classes: 'govuk-!-margin-bottom-7',
+					rows: [
+						{
+							key: {
+								text: 'Paid'
+							},
+							value: {
+								text: paidTotal | friendlyNumber
+							},
+							actions: {
+								items: [
+									{
+										text: 'Change',
+										href: 'paid-notices.html?from-total=true',
+										classes: 'govuk-link--no-visited-state',
+										visuallyHiddenText: 'the number of paid penalty notices'
+									}
+								]
+							}
+						},
+						{
+							key: {
+								text: 'Prosecuted'
+							},
+							value: {
+								text: prosecutedTotal | friendlyNumber
+							},
+							actions: {
+								items: [
+									{
+										text: 'Change',
+										href: 'prosecuted.html?from-total=true',
+										classes: 'govuk-link--no-visited-state',
+										visuallyHiddenText:
+											'the number of prosecuted penalty notices'
+									}
+								]
+							}
+						},
+						{
+							key: {
+								text: 'Withdrawn'
+							},
+							value: {
+								text: withdrawnTotal | friendlyNumber
+							},
+							actions: {
+								items: [
+									{
+										text: 'Change',
+										href: 'withdrawn.html?from-total=true',
+										classes: 'govuk-link--no-visited-state',
+										visuallyHiddenText:
+											'the number of withdrawn penalty notices'
+									}
+								]
+							}
+						},
+						{
+							key: {
+								text: 'Unresolved'
+							},
+							value: {
+								text: data['pns-unresolved'] | friendlyNumber
+							},
+							actions: {
+								items: [
+									{
+										text: 'Change',
+										href: 'unresolved.html?from-total=true',
+										classes: 'govuk-link--no-visited-state',
+										visuallyHiddenText:
+											'the number of withdrawn penalty notices'
+									}
+								]
+							}
+						},
+						{
+							key: {
+								text: 'Total'
+							},
+							value: {
+								text: [resolvedTotal, unresolvedCount]| stringSum | friendlyNumber
+							}
+						}
+					]
+				})
+			}}
 
-            {% if balance != 0 %}
+            {{
+				govukSummaryList({
+					rows: [
+						{
+							key: {
+								text: 'Issued'
+							},
+							value: {
+								text: issuedTotal | friendlyNumber
+							},
+							actions: {
+								items: [
+									{
+										text: 'Change',
+										href: 'notices-issued.html?from-total=true',
+										classes: 'govuk-link--no-visited-state',
+										visuallyHiddenText: 'the number of issued penalty notices'
+									}
+								]
+							}
+						}
+					]
+				})
+			}}
 
-                {{ govukTextarea ({
+			{% if balance != 0 %}
+
+			{{ govukTextarea ({
                     id: 'pns-unbalanced-reason',
                     name: 'pns-unbalanced-reason',
                     value: data['pns-unbalanced-reason'] if data['pns-unbalanced-reason'] else '',
                     label: {
-                        text: 'Give the reason why the number of penalty notices that were either actioned or unresolved is not the same as the number that were issued'
+                        text: 'Why does the number of actioned or unresolved penalty notices not match the number issued?'
                     }
                 }) }}
 
-            {% endif %}
+			{% endif %} {% if unresolvedCount >= 0 %}
 
-            {% if unresolvedCount >= 0 %}
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
 
-                {{ govukButton ({
-                    html: 'Continue'
-                }) }}
-
-            {% endif %}
-        
-
+			{% endif %}
 		</form>
 	</div>
 </div>

@@ -3,6 +3,15 @@ notices (PNs) led to prosecution for non-payment? {% endblock %} {% block
 beforeContent %}
 
 {{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{{
 	govukBackLink({
 		text: 'Back',
 		href: 'javascript:history.back()'
@@ -19,13 +28,13 @@ beforeContent %}
 			</h1>
 
 			<p>
-				Unresolved penalty notices are ones which have not:
+				Unresolved penalty notices are ones which have:
 			</p>
 
 			<ul class="govuk-list govuk-list--bullet">
-				<li>been paid</li>
-				<li>led to prosecution for not being paid</li>
-				<li>been withdrawn for any reason</li>
+				<li>not been paid</li>
+				<li>haven’t led to prosecution for not being paid</li>
+				<li>not been withdrawn for any reason</li>
 			</ul>
 
 			{{ govukInput ({

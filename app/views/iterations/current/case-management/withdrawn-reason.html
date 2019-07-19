@@ -8,46 +8,46 @@ of attendance management cases {% endblock %} {% block beforeContent %}
 	})
 }}
 
-{% endblock %} {% block content %}
+{% endblock %} {% block content %} {% if (data['att-withdrawn-other'] == null)
+or (data['att-withdrawn-other'] | int == 0) %}
 
-{% if (data['att-withdrawn-other'] == null) or (data['att-withdrawn-other'] | int == 0) %}
-
-    <script>
-    
-        window.location.href = '{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../parenting-orders/granted.html' }}';
-    
-    </script>
+<script>
+	window.location.href =
+		"{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../parenting-orders/granted.html' }}"
+</script>
 
 {% endif %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
-		<form action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../parenting-orders/granted.html' }}">
+		<form
+			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../parenting-orders/granted.html' }}"
+		>
+			{% if data['att-withdrawn-other'] | int > 1 %}
 
-            {% if data['att-withdrawn-other'] | int > 1 %}
+			<h1 class="govuk-heading-xl">
+				Other reasons for the withdrawals of attendance management cases
+			</h1>
 
-                <h1 class="govuk-heading-xl">
-                    Other reasons for the withdrawals of attendance management cases
-                </h1>
+			<p>
+				Tell us the reason for the withdrawals of the
+				{{ data['att-withdrawn-other'] | friendlyNumber }} stated attendance
+				management cases.
+			</p>
 
-                <p>
-                    Tell us the reason for the withdrawals of the
-                    {{ data['att-withdrawn-other'] | friendlyNumber }} stated attendance
-                    management cases.
-                </p>
+			{% else %}
 
-            {% else %}
+			<h1 class="govuk-heading-xl">
+				Detail the reason for the withdrawal of the other attendance management
+				case
+			</h1>
 
-                <h1 class="govuk-heading-xl">
-                    Detail the reason for the withdrawal of the other attendance management case
-                </h1>
+			<p>
+				Tell us the reason for the withdrawals of the stated attendance
+				management case.
+			</p>
 
-                <p>
-                    Tell us the reason for the withdrawals of the stated attendance
-                    management case.
-                </p>
-
-            {% endif %}
+			{% endif %}
 
 			{{ govukTextarea ({
                 id: 'att-withdrawn-reason',
@@ -64,9 +64,11 @@ of attendance management cases {% endblock %} {% block beforeContent %}
 				})
 			}}
 
-            <p>
-                <a href="withdrawn">Change the number of withdrawn attendance management cases</a>
-            </p>
+			<p>
+				<a href="withdrawn"
+					>Change the number of withdrawn attendance management cases</a
+				>
+			</p>
 		</form>
 	</div>
 </div>

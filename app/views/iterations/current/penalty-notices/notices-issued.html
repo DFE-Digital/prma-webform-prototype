@@ -1,6 +1,13 @@
 {% extends 'layout.html' %} {% block pageTitle %} Penalty notices issued {%
 endblock %} {% block beforeContent %}
 
+{{ govukPhaseBanner({
+  tag: {
+    text: "prototype"
+  },
+  html: 'This service is in development. Do not submit any real data.'
+}) }}
+
 {{
 	govukBackLink({
 		text: 'Back',
@@ -16,14 +23,14 @@ endblock %} {% block beforeContent %}
 			action="{{ 'totals.html' if data['from-total'] == 'true' else 'paid-notices.html' }}"
 		>
 			<h1 class="govuk-heading-xl">
-				Total number of penalty notices issued where the main reason was:
+				Number of penalty notices issued where the main reason was:
 			</h1>
 
 			{{ govukInput ({
                 id: 'pns-holidays',
                 name: 'pns-holidays',
                 value: data['pns-holidays'] if data['pns-holidays'] else '',
-                classes: 'govuk-input--width-5',
+                classes: 'govuk-input--width-5 sum-value',
                 type: 'number',
                 label: {
                     text: 'Unauthorised family holiday'
@@ -34,7 +41,7 @@ endblock %} {% block beforeContent %}
                 id: 'pns-late',
                 name: 'pns-late',
                 value: data['pns-late'] if data['pns-late'] else '',
-                classes: 'govuk-input--width-5',
+                classes: 'govuk-input--width-5 sum-value',
                 type: 'number',
                 label: {
                     text: 'Arriving late'
@@ -45,12 +52,16 @@ endblock %} {% block beforeContent %}
                 id: 'pns-other',
                 name: 'pns-other',
                 value: data['pns-other'] if data['pns-other'] else '',
-                classes: 'govuk-input--width-5',
+                classes: 'govuk-input--width-5 sum-value',
                 type: 'number',
                 label: {
                     text: 'Other unauthorised circumstances'
                 }
             }) }}
+
+            <p>
+                There was <b class="sum-total">0</b> penalty notices issued for unauthorised absences in total.
+            </p>
 
 			{{
 				govukButton({
