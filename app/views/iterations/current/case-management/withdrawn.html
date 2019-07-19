@@ -16,7 +16,7 @@ management cases {% endblock %} {% block beforeContent %}
 			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'withdrawn-reason.html' }}"
 		>
 			<h1 class="govuk-heading-xl">
-				Number of withdrawn attendance management cases where the reason was:
+				Number of attendance management cases withdrawn because:
 			</h1>
 
 			{{
@@ -46,6 +46,11 @@ management cases {% endblock %} {% block beforeContent %}
                     text: 'Any other reason'
                 }
 			}) }}
+
+			<p>
+				<b class="sum-total">0</b> attendance management cases were withdrawn in
+				total.
+			</p>
 
 			{{
 				govukButton({

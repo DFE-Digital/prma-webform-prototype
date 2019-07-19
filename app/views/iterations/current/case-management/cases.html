@@ -1,5 +1,5 @@
-{% extends 'layout.html' %} {% block pageTitle %} How many attendance management
-cases were there? {% endblock %} {% block beforeContent %}
+{% extends 'layout.html' %} {% block pageTitle %} What was the total number of
+attendance management cases? {% endblock %} {% block beforeContent %}
 
 {{
 	govukPhaseBanner({
@@ -25,7 +25,7 @@ cases were there? {% endblock %} {% block beforeContent %}
 			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'prosecuted.html' }}"
 		>
 			<h1 class="govuk-heading-xl">
-				How many attendance management cases were there?
+				What was the total number of attendance management cases?
 			</h1>
 
 			{{

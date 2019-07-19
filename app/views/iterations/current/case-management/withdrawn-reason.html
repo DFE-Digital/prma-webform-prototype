@@ -26,26 +26,17 @@ or (data['att-withdrawn-other'] | int == 0) %}
 			{% if data['att-withdrawn-other'] | int > 1 %}
 
 			<h1 class="govuk-heading-xl">
-				Other reasons for the withdrawals of attendance management cases
-			</h1>
-
-			<p>
-				Tell us the reason for the withdrawals of the
+				Tell us the reasons for the withdrawal of the
 				{{ data['att-withdrawn-other'] | friendlyNumber }} stated attendance
-				management cases.
-			</p>
+				management cases
+			</h1>
 
 			{% else %}
 
 			<h1 class="govuk-heading-xl">
-				Detail the reason for the withdrawal of the other attendance management
-				case
+				Tell us the reason for the withdrawal of the stated attendance
+				management case
 			</h1>
-
-			<p>
-				Tell us the reason for the withdrawals of the stated attendance
-				management case.
-			</p>
 
 			{% endif %}
 
@@ -54,7 +45,8 @@ or (data['att-withdrawn-other'] | int == 0) %}
                 name: 'att-withdrawn-reason',
                 value: data['att-withdrawn-reason'] if data['att-withdrawn-reason'] else '',
                 label: {
-                    text: 'Reasons for withdrawal' + 's' if data['att-withdrawn-other'] | int > 1
+                    text: 'Reasons for withdrawal' + 's' if data['att-withdrawn-other'] | int > 1,
+                    classes: 'govuk-visually-hidden'
                 }
             }) }}
 
@@ -66,7 +58,8 @@ or (data['att-withdrawn-other'] | int == 0) %}
 
 			<p>
 				<a href="withdrawn"
-					>Change the number of withdrawn attendance management cases</a
+					>Change the number of attendance management cases that were
+					withdrawn</a
 				>
 			</p>
 		</form>

@@ -25,7 +25,14 @@ answers {% endblock %} {% block beforeContent %}
 	})
 }}
 
-{% endblock %} {% block content %}
+{% endblock %} {% block content %} {% if (data['pc-offered'] | int) <
+(data['pc-accepted'] | int) %}
+
+<script>
+	window.location.href = 'parenting-contracts/totals.html?pc-error=true'
+</script>
+
+{% endif %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds-from-desktop">

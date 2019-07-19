@@ -1,5 +1,6 @@
 {% extends 'layout.html' %} {% block pageTitle %} Total number of parenting
-contracts offered {% endblock %} {% block beforeContent %}
+contracts offered {% endblock %} {% set pcError = data['pc-error'] == 'true' %}
+{% block beforeContent %}
 
 {{
 	govukPhaseBanner({
@@ -24,15 +25,31 @@ contracts offered {% endblock %} {% block beforeContent %}
 		<form
 			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../education-supervision/totals.html' }}"
 		>
+			{% if pcError %}
+			{{
+				govukErrorSummary({
+					titleText: 'There is a problem',
+					errorList: [
+						{
+							text:
+								'The number of parenting contracts accepted by parents cannot be more than the number offered to them',
+							href: '#pc-accepted-error'
+						}
+					]
+				})
+			}}
+			{% endif %}
+
 			<h1 class="govuk-heading-xl">
-				Total number of parenting contracts that were:
+				Number of parenting contracts that were:
 			</h1>
 
 			{{ govukInput ({
                     id: 'pc-offered',
                     name: 'pc-offered',
                     value: data['pc-offered'] if data['pc-offered'] else '',
-                    classes: 'govuk-input--width-5',
+					classes: 'govuk-input--width-5',
+					type: 'number',
                     label: {
                         text: 'Offered to parents'
                     }
@@ -42,11 +59,17 @@ contracts offered {% endblock %} {% block beforeContent %}
                     id: 'pc-accepted',
                     name: 'pc-accepted',
                     value: data['pc-accepted'] if data['pc-accepted'] else '',
-                    classes: 'govuk-input--width-5',
+					classes: 'govuk-input--width-5',
+					type: 'number',
+					errorMessage: {
+						text: 'The number of parenting contracts accepted by parents cannot be more than the number offered to them'
+					} if pcError,
                     label: {
                         text: 'Accepted by parents'
                     }
-                }) }}
+				}) }}
+
+			<input type="hidden" name="pc-error" value="false" />
 
 			{{
 				govukButton({

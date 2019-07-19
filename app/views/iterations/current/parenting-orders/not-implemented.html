@@ -25,15 +25,15 @@ parenting orders {% endblock %} {% block beforeContent %}
 			action="{{ '../check-your-answers.html' if (data['from-check'] == 'true') else '../parenting-contracts/totals.html' }}"
 		>
 			<h1 class="govuk-heading-xl">
-				Total number of granted parenting orders that were not implemented
-				because of:
+				Number of granted parenting orders that were not implemented because of:
 			</h1>
 
 			{{ govukInput ({
                 id: 'po-ni-provision',
                 name: 'po-ni-provision',
                 value: data['po-ni-provision'] if data['po-ni-provision'] else '',
-                classes: 'govuk-input--width-5',
+				classes: 'govuk-input--width-5',
+				type: 'number',
                 label: {
                     text: 'Lack of provision'
                 }
@@ -43,11 +43,17 @@ parenting orders {% endblock %} {% block beforeContent %}
                 id: 'po-ni-parent',
                 name: 'po-ni-parent',
                 value: data['po-ni-parent'] if data['po-ni-parent'] else '',
-                classes: 'govuk-input--width-5',
+				classes: 'govuk-input--width-5',
+				type: 'number',
                 label: {
                     text: 'Breach by a parent'
                 }
-            }) }}
+			}) }}
+
+			<p>
+				<b class="sum-total">0</b> parenting orders were not implemented in
+				total.
+			</p>
 
 			{{
 				govukButton({
