@@ -1,5 +1,14 @@
-{% extends 'layout.html' %} {% block pageTitle %} Total number of attendance
-management cases {% endblock %} {% block beforeContent %}
+{% extends 'layout.html' %} {% block pageTitle %} What was the total number of
+attendance management cases? {% endblock %} {% block beforeContent %}
+
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
 
 {{
 	govukBackLink({
@@ -16,7 +25,7 @@ management cases {% endblock %} {% block beforeContent %}
 			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'prosecuted.html' }}"
 		>
 			<h1 class="govuk-heading-xl">
-				Total number of attendance management cases
+				What was the total number of attendance management cases?
 			</h1>
 
 			{{

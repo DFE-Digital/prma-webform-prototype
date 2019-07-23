@@ -2,6 +2,15 @@
 endblock %} {% block beforeContent %}
 
 {{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{{
 	govukBackLink({
 		text: 'Back',
 		href: 'javascript:history.back()'
@@ -16,7 +25,7 @@ endblock %} {% block beforeContent %}
 			action="{{ 'totals.html' if data['from-total'] == 'true' else 'unresolved.html' }}"
 		>
 			<h1 class="govuk-heading-xl">
-				Total number of withdrawn penalty notices where the main reason for withdrawal was:
+				Number of penalty notices withdrawn because:
 			</h1>
 
 			{{ govukInput ({
@@ -26,7 +35,7 @@ endblock %} {% block beforeContent %}
                 classes: 'govuk-input--width-5',
                 type: 'number',
                 label: {
-                    text: 'It was issued outside terms of local code of conduct'
+                    text: 'They were issued outside terms of local code of conduct'
                 }
             }) }}
 
@@ -37,7 +46,7 @@ endblock %} {% block beforeContent %}
                 classes: 'govuk-input--width-5',
                 type: 'number',
                 label: {
-                    text: 'It should not have been issued or has been issued to the wrong person'
+                    text: 'They should not have been issued or they were issued to the wrong person'
                 }
             }) }}
 
@@ -48,7 +57,7 @@ endblock %} {% block beforeContent %}
                 classes: 'govuk-input--width-5',
                 type: 'number',
                 label: {
-                    text: 'It contains material errors'
+                    text: 'They contained material errors'
                 }
             }) }}
 
@@ -59,9 +68,11 @@ endblock %} {% block beforeContent %}
                 classes: 'govuk-input--width-5',
                 type: 'number',
                 label: {
-                    text: 'It was not paid within 28 days and has not been prosecuted under s444'
+                    text: 'They were not paid and not prosecuted under section 444'
                 }
             }) }}
+
+			<p><b class="sum-total">0</b> penalty notices were withdrawn in total.</p>
 
 			{{
 				govukButton({
@@ -71,9 +82,9 @@ endblock %} {% block beforeContent %}
 
 			{{
 				govukDetails({
-					summaryText: 'What is s444?',
+					summaryText: 'What is section 444?',
 					text:
-						's444 is the law that allows local authorities to send parents penalty notices for school non-attendance and begin court proceedings if the notice remains unpaid after 28 days.'
+						'Section 444 is the law that allows local authorities to send parents penalty notices for school non-attendance and begin court proceedings if the notice remains unpaid after 28 days.'
 				})
 			}}
 		</form>

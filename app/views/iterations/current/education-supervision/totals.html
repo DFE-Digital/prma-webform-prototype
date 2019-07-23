@@ -2,26 +2,43 @@
 contracts offered {% endblock %} {% block beforeContent %}
 
 {{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{{
 	govukBackLink({
 		text: 'Back',
 		href: 'javascript:history.back()'
 	})
 }}
 
-{% endblock %} {% block content %}
+{% endblock %} {% block content %} {% if (data['pc-offered'] | int) <
+(data['pc-accepted'] | int) %}
+
+<script>
+	window.location.href = '../parenting-contracts/totals.html?pc-error=true'
+</script>
+
+{% endif %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
 		<form action="../check-your-answers.html">
 			<h1 class="govuk-heading-xl">
-				Total number of education supervision orders issued:
+				Number of education supervision orders issued:
 			</h1>
 
 			{{ govukInput ({
                     id: 'eso-in-place',
                     name: 'eso-in-place',
                     value: data['eso-in-place'] if data['eso-in-place'] else '',
-                    classes: 'govuk-input--width-5',
+					classes: 'govuk-input--width-5',
+					type: 'number',
                     label: {
                         text: 'In place of prosecution'
                     }
@@ -31,11 +48,16 @@ contracts offered {% endblock %} {% block beforeContent %}
                     id: 'eso-as-well',
                     name: 'eso-as-well',
                     value: data['eso-as-well'] if data['eso-as-well'] else '',
-                    classes: 'govuk-input--width-5',
+					classes: 'govuk-input--width-5',
+					type: 'number',
                     label: {
                         text: 'As well as prosecution'
                     }
-                }) }}
+				}) }}
+
+			<p>
+				<b class="sum-total">0</b> education supervision orders issued in total.
+			</p>
 
 			{{
 				govukButton({

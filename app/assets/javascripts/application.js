@@ -21,4 +21,29 @@ $(document).ready(function() {
 				.remove()
 		}
 	})
+
+	window.addEventListener('pageshow', function(event) {
+		var historyTraversal =
+			event.persisted ||
+			(typeof window.performance != 'undefined' &&
+				window.performance.navigation.type === 2)
+		if (historyTraversal) {
+			// Handle page restore.
+			window.location.reload()
+		}
+	})
+})
+
+function doSum() {
+	var total = 0
+	$('input[type=number]').each(function() {
+		total += Number($(this).val())
+	})
+	$('.sum-total').text(total)
+}
+
+doSum()
+
+$('input[type=number]').on('input', function() {
+	doSum()
 })

@@ -2,6 +2,15 @@
 notices that were paid; {% endblock %} {% block beforeContent %}
 
 {{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{{
 	govukBackLink({
 		text: 'Back',
 		href: 'javascript:history.back()'
@@ -16,7 +25,7 @@ notices that were paid; {% endblock %} {% block beforeContent %}
 			action="{{ 'totals.html' if data['from-total'] == 'true' else 'prosecuted.html' }}"
 		>
 			<h1 class="govuk-heading-xl">
-				Total number of penalty notices that were:
+				Number of penalty notices that were:
 			</h1>
 
 			{{ govukInput ({
@@ -39,7 +48,9 @@ notices that were paid; {% endblock %} {% block beforeContent %}
                     label: {
                         text: 'Paid between 22 and 28 days'
                     }
-                }) }}
+				}) }}
+
+			<p><b class="sum-total">0</b> penalty notices were paid in total.</p>
 
 			{{
 				govukButton({
