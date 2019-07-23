@@ -1,0 +1,75 @@
+{% extends 'layout.html' %} {% block pageTitle %} You have answered zero to
+every question, is this correct? {% endblock %} {% block beforeContent %}
+
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %} {% if [data['pns-holidays'],
+data['pns-late'], data['pns-other'], data['pns-paid-21'],
+data['pns-paid-22-28'], data['pns-prosecuted'], data['pns-withdrawn-terms'],
+data['pns-withdrawn-person'], data['pns-withdrawn-errors'],
+data['pns-withdrawn-s444'], data['pns-unresolved'], data['att-cases'],
+data['att-prosecuted'], data['att-withdrawn-improved'],
+data['att-withdrawn-other'], data['po-granted'], data['po-implemented'],
+data['po-ni-provision'], data['po-ni-parent'], data['pc-offered'],
+data['pc-accepted'], data['eso-in-place'], data['eso-as-well']] | stringSum != 0
+%}
+
+<script>
+	window.location.href = 'confirmation.html'
+</script>
+
+{% endif %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form action="confirmation.html">
+			{{
+				govukRadios({
+					classes: 'govuk-radios--inline',
+					idPrefix: '',
+					name: '',
+					fieldset: {
+						legend: {
+							text:
+								'You have answered zero to every question, is this correct?',
+							isPageHeading: true,
+							classes: 'govuk-fieldset__legend--xl'
+						}
+					},
+					items: [
+						{
+							text: 'Yes',
+							value: 'yes'
+						},
+						{
+							text: 'No',
+							value: 'no'
+						}
+					]
+				})
+			}}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

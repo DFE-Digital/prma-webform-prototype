@@ -1,0 +1,61 @@
+{% extends 'layout.html' %} {% block pageTitle %} How many unpaid penalty
+notices (PNs) led to prosecution for non-payment? {% endblock %} {% block
+beforeContent %}
+
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form action="totals.html">
+			<h1 class="govuk-heading-xl">
+				How many penalty notices were unresolved at the end of the period?
+			</h1>
+
+			<p>
+				Unresolved penalty notices are ones which have:
+			</p>
+
+			<ul class="govuk-list govuk-list--bullet">
+				<li>not been paid</li>
+				<li>haven’t led to prosecution for not being paid</li>
+				<li>not been withdrawn for any reason</li>
+			</ul>
+
+			{{ govukInput ({
+                id: 'pns-unresolved',
+                name: 'pns-unresolved',
+                value: data['pns-unresolved'] if data['pns-unresolved'] else '',
+                classes: 'govuk-input--width-5',
+                type: 'number',
+                label: {
+                    text: 'Unresolved',
+                    classes: 'govuk-visually-hidden'
+                }
+            }) }}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

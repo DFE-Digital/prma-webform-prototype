@@ -1,0 +1,64 @@
+{% extends 'layout.html' %} {% block pageTitle %} Total number of penalty
+notices that were paid; {% endblock %} {% block beforeContent %}
+
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form
+			action="{{ 'totals.html' if data['from-total'] == 'true' else 'prosecuted.html' }}"
+		>
+			<h1 class="govuk-heading-xl">
+				Number of penalty notices that were:
+			</h1>
+
+			{{ govukInput ({
+                    id: 'pns-paid-21',
+                    name: 'pns-paid-21',
+                    value: data['pns-paid-21'] if data['pns-paid-21'] else '',
+                    classes: 'govuk-input--width-5',
+                    type: 'number',
+                    label: {
+                        text: 'Paid within 21 days'
+                    }
+                }) }}
+
+			{{ govukInput ({
+                    id: 'pns-paid-22-28',
+                    name: 'pns-paid-22-28',
+                    value: data['pns-paid-22-28'] if data['pns-paid-22-28'] else '',
+                    classes: 'govuk-input--width-5',
+                    type: 'number',
+                    label: {
+                        text: 'Paid between 22 and 28 days'
+                    }
+				}) }}
+
+			<p><b class="sum-total">0</b> penalty notices were paid in total.</p>
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

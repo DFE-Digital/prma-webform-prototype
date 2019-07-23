@@ -1,0 +1,64 @@
+{% extends 'layout.html' %} {% block pageTitle %} Total number of attendance
+management cases {% endblock %} {% block beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form
+			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'withdrawn-reason.html' }}"
+		>
+			<h1 class="govuk-heading-xl">
+				Number of attendance management cases withdrawn because:
+			</h1>
+
+			{{
+				govukInsetText({
+					text: 'Include cases within the fast-track case management system.'
+				})
+			}}
+
+			{{ govukInput ({
+                id: 'att-withdrawn-improved',
+                name: 'att-withdrawn-improved',
+                value: data['att-withdrawn-improved'] if data['att-withdrawn-improved'] else '',
+                classes: 'govuk-input--width-5',
+                type: 'number',
+                label: {
+                    text: 'Attendance improved'
+                }
+            }) }}
+
+			{{ govukInput ({
+                id: 'att-withdrawn-other',
+                name: 'att-withdrawn-other',
+                value: data['att-withdrawn-other'] if data['att-withdrawn-other'] else '',
+                classes: 'govuk-input--width-5',
+                type: 'number',
+                label: {
+                    text: 'Any other reason'
+                }
+			}) }}
+
+			<p>
+				<b class="sum-total">0</b> attendance management cases were withdrawn in
+				total.
+			</p>
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}

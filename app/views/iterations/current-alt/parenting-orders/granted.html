@@ -1,0 +1,51 @@
+{% extends 'layout.html' %} {% block pageTitle %} Total number of granted
+parenting orders {% endblock %} {% block beforeContent %}
+
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form
+			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'implemented.html' }}"
+		>
+			<h1 class="govuk-heading-xl">
+				How many parenting orders were granted?
+			</h1>
+
+			{{ govukInput ({
+                id: 'po-granted',
+                name: 'po-granted',
+                value: data['po-granted'] if data['po-granted'] else '',
+                classes: 'govuk-input--width-5',
+                label: {
+                    text: 'Granted parenting orders',
+					classes: 'govuk-visually-hidden'
+                }
+            }) }}
+
+			{{
+				govukButton({
+					html: 'Continue'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}
