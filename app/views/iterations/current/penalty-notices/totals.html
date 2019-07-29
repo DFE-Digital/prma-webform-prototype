@@ -7,7 +7,11 @@ data['pns-withdrawn-errors'], data['pns-withdrawn-s444']] | stringSum %} {% set
 prosecutedTotal = [data['pns-prosecuted']] | stringSum %} {% set resolvedTotal =
 [paidTotal, withdrawnTotal, prosecutedTotal] | stringSum %} {% set
 unresolvedCount = [data['pns-unresolved']] | stringSum %} {% set balance =
-[issuedTotal, '-'+resolvedTotal] | stringSum %} {% block beforeContent %}
+[issuedTotal, '-'+resolvedTotal] | stringSum %} 
+
+{% set hasError = data['queryError'] == 'true' %}
+
+{% block beforeContent %}
 
 {{
 	govukPhaseBanner({
@@ -30,8 +34,26 @@ unresolvedCount = [data['pns-unresolved']] | stringSum %} {% set balance =
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
 		<form
-			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../case-management/cases.html' }}"
+			action="/validate-queries"
+			method="post"
 		>
+
+		<input type="hidden" name="success-page" value="{{ '#root#/check-your-answers.html' if data['from-check'] == 'true' else '#root#/case-management/cases.html' }}">
+
+			{% if hasError %}
+
+				{{ govukErrorSummary({
+					titleText: 'There is a problem',
+					errorList: [
+						{
+							text: 'You must give a reason why the number of actioned or unresolved penalty notices does not match the number issued',
+							href: '#p-lodged-query-all-error'
+						}
+					]
+				}) }}
+
+			{% endif %}
+
 			<h1 class="govuk-heading-xl">
 				Check the total number of actioned or unresolved penalty notices against how many were issued
 			</h1>
@@ -158,6 +180,9 @@ unresolvedCount = [data['pns-unresolved']] | stringSum %} {% set balance =
                     id: 'pns-unbalanced-reason',
                     name: 'pns-unbalanced-reason',
                     value: data['pns-unbalanced-reason'] if data['pns-unbalanced-reason'] else '',
+					errorMessage: {
+						text: 'You must give a reason why the number of actioned or unresolved penalty notices does not match the number issued'
+					} if hasError,
                     label: {
                         text: 'Why does the number of actioned or unresolved penalty notices not match the number issued?'
                     }

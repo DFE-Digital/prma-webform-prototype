@@ -1,5 +1,9 @@
 {% extends 'layout.html' %} {% block pageTitle %} Other reasons for withdrawal
-of attendance management cases {% endblock %} {% block beforeContent %}
+of attendance management cases {% endblock %}
+
+{% set hasError = data['queryError'] == 'true' %}
+
+{% block beforeContent %}
 
 {{
 	govukBackLink({
@@ -9,7 +13,7 @@ of attendance management cases {% endblock %} {% block beforeContent %}
 }}
 
 {% endblock %} {% block content %} {% if (data['att-withdrawn-other'] == null)
-or (data['att-withdrawn-other'] | int == 0) %}
+or (data['att-withdrawn-other'] | int == 0) or (data['att-withdrawn-other'] == '') %}
 
 <script>
 	window.location.href =
@@ -21,9 +25,29 @@ or (data['att-withdrawn-other'] | int == 0) %}
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
 		<form
-			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../parenting-orders/granted.html' }}"
+			action="/validate-queries"
+			method="post"
 		>
+
+		<input type="hidden" name="success-page" value="{{ '#root#/check-your-answers.html' if data['from-check'] == 'true' else '#root#/parenting-orders/granted.html' }}">
+
 			{% if data['att-withdrawn-other'] | int > 1 %}
+
+			{% if hasError %}
+
+				{{ govukErrorSummary({
+					titleText: 'There is a problem',
+					errorList: [
+						{
+							text: 'You must tell us the reasons for the withdrawal of the
+				' + data['att-withdrawn-other'] | friendlyNumber + ' stated attendance
+				management cases',
+							href: '#att-withdrawn-reason-error'
+						}
+					]
+				}) }}
+
+			{% endif %}
 
 			<h1 class="govuk-heading-xl">
 				Tell us the reasons for the withdrawal of the
@@ -31,24 +55,58 @@ or (data['att-withdrawn-other'] | int == 0) %}
 				management cases
 			</h1>
 
+			{{ govukTextarea ({
+                id: 'att-withdrawn-reason',
+                name: 'att-withdrawn-reason',
+                value: data['att-withdrawn-reason'] if data['att-withdrawn-reason'] else '',
+				errorMessage: {
+					text: 'You must tell us the reasons for the withdrawal of the
+				' + data['att-withdrawn-other'] | friendlyNumber + ' stated attendance
+				management cases'
+				} if hasError,
+                label: {
+                    text: 'Reasons for withdrawal' + 's' if data['att-withdrawn-other'] | int > 1,
+                    classes: 'govuk-visually-hidden'
+                }
+            }) }}
+
 			{% else %}
+
+			{% if hasError %}
+
+				{{ govukErrorSummary({
+					titleText: 'There is a problem',
+					errorList: [
+						{
+							text: 'You must tell us the reason for the withdrawal of the stated attendance
+				management case',
+							href: '#att-withdrawn-reason-error'
+						}
+					]
+				}) }}
+
+			{% endif %}
 
 			<h1 class="govuk-heading-xl">
 				Tell us the reason for the withdrawal of the stated attendance
 				management case
 			</h1>
 
-			{% endif %}
-
 			{{ govukTextarea ({
                 id: 'att-withdrawn-reason',
                 name: 'att-withdrawn-reason',
                 value: data['att-withdrawn-reason'] if data['att-withdrawn-reason'] else '',
+				errorMessage: {
+					text: 'You must tell us the reason for the withdrawal of the stated attendance
+				management case'
+				} if hasError,
                 label: {
                     text: 'Reasons for withdrawal' + 's' if data['att-withdrawn-other'] | int > 1,
                     classes: 'govuk-visually-hidden'
                 }
             }) }}
+
+			{% endif %}
 
 			{{
 				govukButton({
