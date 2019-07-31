@@ -17,18 +17,11 @@ contracts offered {% endblock %} {% block beforeContent %}
 	})
 }}
 
-{% endblock %} {% block content %} {% if (data['pc-offered'] | int) <
-(data['pc-accepted'] | int) %}
-
-<script>
-	window.location.href = '../parenting-contracts/totals.html?pc-error=true'
-</script>
-
-{% endif %}
+{% endblock %} {% block content %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
-		<form action="../check-your-answers.html">
+		<form action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../task-list.html' }}">
 			<h1 class="govuk-heading-xl">
 				Number of education supervision orders issued:
 			</h1>
@@ -58,6 +51,8 @@ contracts offered {% endblock %} {% block beforeContent %}
 			<p>
 				<b class="sum-total">0</b> education supervision orders issued in total.
 			</p>
+
+			<input type="hidden" name="eso-completed" value="true" />
 
 			{{
 				govukButton({

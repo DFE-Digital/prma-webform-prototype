@@ -28,6 +28,17 @@ endblock %} {% block beforeContent %}
 				classes: 'govuk-button--start'
 			})
 		}}
+
+		<br>
+
+		{{
+			govukButton({
+				text: 'Open task list iteration',
+				href: 'iterations/current-task-list/start.html',
+				classes: 'govuk-button--start'
+			})
+		}}
+
 	</div>
 </div>
 

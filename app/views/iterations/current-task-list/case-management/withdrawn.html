@@ -13,7 +13,7 @@ management cases {% endblock %} {% block beforeContent %}
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
 		<form
-			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else 'withdrawn-reason.html' }}"
+			action="{{ 'totals.html' if data['from-total'] == 'true' else ('../check-your-answers.html' if data['from-check'] == 'true' else 'withdrawn-reason.html') }}"
 		>
 			<h1 class="govuk-heading-xl">
 				Number of attendance management cases withdrawn because:

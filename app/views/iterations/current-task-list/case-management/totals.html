@@ -1,0 +1,159 @@
+{% extends 'layout.html' %} {% block pageTitle %} Check penalty notices (PNs)
+totals {% endblock %} {% set issuedTotal = [data['pns-holidays'],
+data['pns-late'], data['pns-other']] | stringSum %} {% set paidTotal =
+[data['pns-paid-21'], data['pns-paid-22-28']] | stringSum %} {% set
+withdrawnTotal = [data['pns-withdrawn-terms'], data['pns-withdrawn-person'],
+data['pns-withdrawn-errors'], data['pns-withdrawn-s444']] | stringSum %} {% set
+prosecutedTotal = [data['pns-prosecuted']] | stringSum %} {% set resolvedTotal =
+[paidTotal, withdrawnTotal, prosecutedTotal] | stringSum %} {% set
+unresolvedCount = [data['pns-unresolved']] | stringSum %} {% set balance =
+[issuedTotal, '-'+resolvedTotal] | stringSum %} 
+
+{% set hasError = data['queryError'] == 'true' %}
+
+{% block beforeContent %}
+
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form
+			action="{{ '#root#/check-your-answers.html' if data['from-check'] == 'true' else '#root#/task-list.html' }}"
+		>
+
+            <input type="hidden" name="amc-completed" value="true">
+
+			<h1 class="govuk-heading-xl">
+				Check the total number of attendance management cases against those that were prosecuted or withdrawn
+			</h1>
+
+			{{ govukSummaryList ({
+                classes: 'govuk-summary-long',
+                rows: [
+                    {
+                        key: {
+                            text: 'Total cases'
+                        },
+                        value: {
+                            text: data['att-cases'] | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    classes: 'govuk-link--no-visited-state',
+                                    href: 'cases.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'number of attendance management cases'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Prosecutions resulting from cases'
+                        },
+                        value: {
+                            text: data['att-prosecuted'] | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    classes: 'govuk-link--no-visited-state',
+                                    href: 'prosecuted.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'number of prosecutions resulting from attendance management cases'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Cases withdrawn because of improved attendance'
+                        },
+                        value: {
+                            text: data['att-withdrawn-improved'] | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    classes: 'govuk-link--no-visited-state',
+                                    href: 'withdrawn.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'number of cases withdrawn because of improved attendance'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Cases withdrawn for other reasons'
+                        },
+                        value: {
+                            text: data['att-withdrawn-other'] | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    classes: 'govuk-link--no-visited-state',
+                                    href: 'withdrawn.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'number of cases withdrawn for other reasons'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        classes: 'govuk-summary-short',
+                        key: {
+                            text: 'Reasons for other withdrawals'
+                        },
+                        value: {
+                            html: data['att-withdrawn-reason']
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    classes: 'govuk-link--no-visited-state',
+                                    href: 'withdrawn-reason.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'number of cases withdrawn for other reasons'
+                                }
+                            ]
+                        }
+                    } if data['att-withdrawn-other'] | int != 0
+                }
+            }) }}
+
+
+            {{
+                govukButton({
+                    html: 'Continue'
+                })
+            }}
+
+		</form>
+	</div>
+</div>
+
+{% endblock %}

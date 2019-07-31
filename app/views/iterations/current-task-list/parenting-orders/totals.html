@@ -1,0 +1,139 @@
+{% extends 'layout.html' %} {% block pageTitle %} Check penalty notices (PNs)
+totals {% endblock %} {% set issuedTotal = [data['pns-holidays'],
+data['pns-late'], data['pns-other']] | stringSum %} {% set paidTotal =
+[data['pns-paid-21'], data['pns-paid-22-28']] | stringSum %} {% set
+withdrawnTotal = [data['pns-withdrawn-terms'], data['pns-withdrawn-person'],
+data['pns-withdrawn-errors'], data['pns-withdrawn-s444']] | stringSum %} {% set
+prosecutedTotal = [data['pns-prosecuted']] | stringSum %} {% set resolvedTotal =
+[paidTotal, withdrawnTotal, prosecutedTotal] | stringSum %} {% set
+unresolvedCount = [data['pns-unresolved']] | stringSum %} {% set balance =
+[issuedTotal, '-'+resolvedTotal] | stringSum %} 
+
+{% set hasError = data['queryError'] == 'true' %}
+
+{% block beforeContent %}
+
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form
+			action="{{ '#root#/check-your-answers.html' if data['from-check'] == 'true' else '#root#/task-list.html' }}"
+		>
+
+            <input type="hidden" name="po-completed" value="true">
+
+			<h1 class="govuk-heading-xl">
+				Check the total number of granted parenting orders against those that were implemented and not implemented
+			</h1>
+
+            {{ govukSummaryList ({
+                classes: 'govuk-summary-long',
+                rows: [
+                    {
+                        key: {
+                            text: 'Total granted'
+                        },
+                        value: {
+                            text: data['po-granted'] | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    classes: 'govuk-link--no-visited-state',
+                                    href: 'granted.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'number of granted parenting orders'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Implemented'
+                        },
+                        value: {
+                            text: data['po-implemented'] | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    classes: 'govuk-link--no-visited-state',
+                                    href: 'implemented.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'number of implemented parenting orders'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Not implemented because of lack of provision'
+                        },
+                        value: {
+                            text: data['po-ni-provision'] | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    classes: 'govuk-link--no-visited-state',
+                                    href: 'not-implemented.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'number of parenting orders not implemented because of lack of provision'
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        key: {
+                            text: 'Not implemented because of a breach by a parent'
+                        },
+                        value: {
+                            text: data['po-ni-parent'] | friendlyNumber
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    text: 'Change',
+                                    classes: 'govuk-link--no-visited-state',
+                                    href: 'not-implemented.html?from-total=true',
+                                    classes: 'govuk-link--no-visited-state',
+                                    visuallyHiddenText: 'number of parenting orders not implemented because of lack of provision'
+                                }
+                            ]
+                        }
+                    }
+                }
+            }) }}
+
+
+            {{
+                govukButton({
+                    html: 'Continue'
+                })
+            }}
+
+		</form>
+	</div>
+</div>
+
+{% endblock %}
