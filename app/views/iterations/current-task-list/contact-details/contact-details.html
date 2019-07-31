@@ -21,9 +21,7 @@ questions about this census? {% endblock %} {% block beforeContent %}
 
 <div class="govuk-grid-row">
 	<div class="govuk-grid-column-two-thirds">
-		<form
-			action="{{ '../check-your-answers.html' if data['from-check'] == 'true' else '../penalty-notices/notices-issued.html' }}"
-		>
+		<form action="../check-your-answers.html">
 			<h1 class="govuk-heading-xl">
 				Who can we contact if we have questions about this census?
 			</h1>

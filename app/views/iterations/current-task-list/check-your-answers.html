@@ -41,71 +41,7 @@ answers {% endblock %} {% block beforeContent %}
 			Check your answers before sending the census
 		</h1>
 
-		<h2 class="govuk-heading-m">Contact details</h2>
-
-		{{ govukSummaryList ({
-            rows: [
-                {
-                    key: {
-                        text: 'Name'
-                    },
-                    value: {
-                        text: data['first-name'] + ' ' + data['last-name']
-                    },
-                    actions: {
-                        items: [
-                            {
-                                text: 'Change',
-                                classes: 'govuk-link--no-visited-state',
-                                href: 'contact-details/contact-details.html?from-check=true',
-                                classes: 'govuk-link--no-visited-state',
-                                visuallyHiddenText: 'name'
-                            }
-                        ]
-                    }
-                },
-                {
-                    key: {
-                        text: 'Email address'
-                    },
-                    value: {
-                        text: data['email-address']
-                    },
-                    actions: {
-                        items: [
-                            {
-                                text: 'Change',
-                                classes: 'govuk-link--no-visited-state',
-                                href: 'contact-details/contact-details.html?from-check=true',
-                                classes: 'govuk-link--no-visited-state',
-                                visuallyHiddenText: 'email address'
-                            }
-                        ]
-                    }
-                },
-                {
-                    key: {
-                        text: 'Phone number'
-                    },
-                    value: {
-                        text: data['phone-number']
-                    },
-                    actions: {
-                        items: [
-                            {
-                                text: 'Change',
-                                classes: 'govuk-link--no-visited-state',
-                                href: 'contact-details/contact-details.html?from-check=true',
-                                classes: 'govuk-link--no-visited-state',
-                                visuallyHiddenText: 'email address'
-                            }
-                        ]
-                    }
-                }
-            }
-        }) }}
-
-		<h2 class="govuk-heading-m">Penalty notices</h2>
+		<h2 class="govuk-heading-m">1. Penalty notices</h2>
 
 		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
@@ -367,7 +303,7 @@ answers {% endblock %} {% block beforeContent %}
             }
         }) }}
 
-		<h2 class="govuk-heading-m">Attendance management cases</h2>
+		<h2 class="govuk-heading-m">2. Attendance management cases</h2>
 
 		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
@@ -471,7 +407,7 @@ answers {% endblock %} {% block beforeContent %}
             }
         }) }}
 
-		<h2 class="govuk-heading-m">Parenting orders</h2>
+		<h2 class="govuk-heading-m">3. Parenting orders</h2>
 
 		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
@@ -555,7 +491,7 @@ answers {% endblock %} {% block beforeContent %}
             }
         }) }}
 
-		<h2 class="govuk-heading-m">Parenting contracts</h2>
+		<h2 class="govuk-heading-m">4. Parenting contracts</h2>
 
 		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
@@ -601,7 +537,7 @@ answers {% endblock %} {% block beforeContent %}
             }
         }) }}
 
-		<h2 class="govuk-heading-m">Education supervision orders</h2>
+		<h2 class="govuk-heading-m">5. Education supervision orders</h2>
 
 		{{ govukSummaryList ({
             classes: 'govuk-summary-long',
@@ -650,6 +586,70 @@ answers {% endblock %} {% block beforeContent %}
                     },
                     value: {
                         text: (data['eso-in-place'] | int + data['eso-as-well'] | int)  | friendlyNumber
+                    }
+                }
+            }
+        }) }}
+
+        <h2 class="govuk-heading-m">Contact details</h2>
+
+		{{ govukSummaryList ({
+            rows: [
+                {
+                    key: {
+                        text: 'Name'
+                    },
+                    value: {
+                        text: data['first-name'] + ' ' + data['last-name']
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                classes: 'govuk-link--no-visited-state',
+                                href: 'contact-details/contact-details.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'name'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Email address'
+                    },
+                    value: {
+                        text: data['email-address']
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                classes: 'govuk-link--no-visited-state',
+                                href: 'contact-details/contact-details.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'email address'
+                            }
+                        ]
+                    }
+                },
+                {
+                    key: {
+                        text: 'Phone number'
+                    },
+                    value: {
+                        text: data['phone-number']
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                classes: 'govuk-link--no-visited-state',
+                                href: 'contact-details/contact-details.html?from-check=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'email address'
+                            }
+                        ]
                     }
                 }
             }
