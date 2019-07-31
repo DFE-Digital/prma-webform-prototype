@@ -6,8 +6,9 @@ withdrawnTotal = [data['pns-withdrawn-terms'], data['pns-withdrawn-person'],
 data['pns-withdrawn-errors'], data['pns-withdrawn-s444']] | stringSum %} {% set
 prosecutedTotal = [data['pns-prosecuted']] | stringSum %} {% set resolvedTotal =
 [paidTotal, withdrawnTotal, prosecutedTotal] | stringSum %} {% set
-unresolvedCount = [data['pns-unresolved']] | stringSum %} {% set balance =
-[issuedTotal, '-'+resolvedTotal] | stringSum %} 
+unresolvedCount = [data['pns-unresolved']] | stringSum %} {% set
+actionedCount = [unresolvedCount, resolvedTotal] | stringSum %} {% set balance =
+[issuedTotal, '-' + actionedCount] | stringSum %} 
 
 {% set hasError = data['queryError'] == 'true' %}
 
