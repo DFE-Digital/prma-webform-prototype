@@ -1,12 +1,14 @@
 {% extends 'layout.html' %} {% block pageTitle %} Penalty notices issued {%
 endblock %} {% block beforeContent %}
 
-{{ govukPhaseBanner({
-  tag: {
-    text: "prototype"
-  },
-  html: 'This service is in development. Do not submit any real data.'
-}) }}
+{{
+	govukPhaseBanner({
+		tag: {
+			text: 'prototype'
+		},
+		html: 'This service is in development. Do not submit any real data.'
+	})
+}}
 
 {{
 	govukBackLink({
@@ -59,9 +61,10 @@ endblock %} {% block beforeContent %}
                 }
             }) }}
 
-            <p>
-                There was <b class="sum-total">0</b> penalty notices issued for unauthorised absences in total.
-            </p>
+			<p>
+				<b class="sum-total">0</b> penalty notices issued for unauthorised
+				absences in total.
+			</p>
 
 			{{
 				govukButton({
