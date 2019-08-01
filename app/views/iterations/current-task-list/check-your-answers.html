@@ -110,8 +110,27 @@ answers {% endblock %} {% block beforeContent %}
                     value: {
                         text: issuedTotal | friendlyNumber
                     }
-                }
-            }
+                },
+                {
+                    key: {
+                        text: 'Reason why the number of penalty notices issued is significantly different from the last period'
+                    },
+                    value: {
+                        text: data['yoy-po-issued-explanation']
+                    },
+                    actions: {
+                        items: [
+                            {
+                                text: 'Change',
+                                classes: 'govuk-link--no-visited-state',
+                                href: 'penalty-notices/totals.html?from-check=true&from-total=true',
+                                classes: 'govuk-link--no-visited-state',
+                                visuallyHiddenText: 'number of PNs for other reasons'
+                            }
+                        ]
+                    }
+                } if data['yoy-po-issued-trigger'] == 'yes' 
+            ]
         }) }}
 
 		{{ govukSummaryList ({

@@ -1,0 +1,68 @@
+{% extends 'layout.html' %} {% block pageTitle %} Prototype options {% endblock
+%} {% block beforeContent %}
+
+{{
+	govukBackLink({
+		text: 'Back',
+		href: 'javascript:history.back()'
+	})
+}}
+
+{% endblock %} {% block content %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form action="start.html">
+			<h1 class="govuk-heading-xl">Prototype options</h1>
+
+            {% set yoyPoIssuedInputHTML %}
+
+                {{ govukInput ({
+                    id: 'yoy-po-issued',
+                    name: 'yoy-po-issued',
+                    value: data['yoy-po-issued'] if data['yoy-po-issued'] else 500,
+                    classes: 'govuk-input--width-5',
+                    type: 'number',
+                    label: {
+                        text: 'Simulated number of penalty notices issued on previous year’s return'
+                    }
+                }) }}
+
+            {% endset %}
+
+            {{ govukRadios ({
+                idPrefix: 'yoy-po-issued-trigger',
+                name: 'yoy-po-issued-trigger',
+                fieldset: {
+                    legend: {
+                        text: 'Trigger year-on-year query for number of penalty notices issued?',
+                        isPageHeading: true,
+                        classes: 'govuk-fieldset__legend--l'
+                    }
+                },
+                items: [
+                    {
+                        text: 'Yes',
+                        value: 'yes',
+                        conditional: {
+                            html: yoyPoIssuedInputHTML
+                        }
+                    },
+                    {
+                        text: 'No',
+                        value: 'no',
+                        selected: true
+                    }
+                ]
+            }) }}
+
+			{{
+				govukButton({
+					html: 'Start prototype'
+				})
+			}}
+		</form>
+	</div>
+</div>
+
+{% endblock %}
