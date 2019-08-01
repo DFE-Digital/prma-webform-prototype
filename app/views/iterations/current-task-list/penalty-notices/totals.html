@@ -195,38 +195,21 @@ actionedCount = [unresolvedCount, resolvedTotal] | stringSum %} {% set balance =
 			
 			{% if unresolvedCount >= 0 %}
 
-			{% if data['yoy-po-issued-trigger'] == 'yes' %}
-				{% if issuedTotal > ((data['yoy-po-issued'] | int) * 1.75) %}
-					{{ govukTextarea ({
-						id: 'yoy-po-issued-explanation',
-						name: 'yoy-po-issued-explanation',
-						value: data['yoy-po-issued-explanation'] if data['yoy-po-issued-explanation'] else '',
-						classes: ' ',
-						label: {
-							text: 'Tell us why the number of penalty notices issued in this period was significantly higher than the previous period',
-							classes: ' '
-						},
-						hint: {
-							text: 'You have told us there were ' + issuedTotal | friendlyNumber + ' penalty notices issued in this period, whereas there were ' + data['yoy-po-issued'] | friendlyNumber + ' penalty notices issued in the previous period.',
-							classes: ' '
-						}
-					}) }}
-				{% elseif issuedTotal < ((data['yoy-po-issued'] | int) * 0.50) %}
-					{{ govukTextarea ({
-						id: 'yoy-po-issued-explanation',
-						name: 'yoy-po-issued-explanation',
-						value: data['yoy-po-issued-explanation'] if data['yoy-po-issued-explanation'] else '',
-						classes: ' ',
-						label: {
-							text: 'Tell us why the number of penalty notices issued in this period was significantly lower than the previous period',
-							classes: ' '
-						},
-						hint: {
-							text: 'You have told us there were ' + issuedTotal | friendlyNumber + ' penalty notices issued in this period, whereas there were ' + data['yoy-po-issued'] | friendlyNumber + ' penalty notices issued in the previous period.',
-							classes: ' '
-						}
-					}) }}
-				{% endif %}
+			{% if data['yoy-po-issued-trigger'] == 'yes' and (issuedTotal > ((data['yoy-po-issued'] | int) * 1.75) or issuedTotal < ((data['yoy-po-issued'] | int) * 0.50)) %}
+				{{ govukTextarea ({
+					id: 'yoy-po-issued-explanation',
+					name: 'yoy-po-issued-explanation',
+					value: data['yoy-po-issued-explanation'] if data['yoy-po-issued-explanation'] else '',
+					classes: ' ',
+					label: {
+						text: 'Tell us why there was a large change in the penalty notices issued compared to the last period',
+						classes: ' '
+					},
+					hint: {
+						text: 'You have told us there were ' + issuedTotal | friendlyNumber + ' penalty notices issued compared to ' + data['yoy-po-issued'] | friendlyNumber + ' in the previous period.',
+						classes: ' '
+					}
+				}) }}
 			{% endif %}
 
 			{{
